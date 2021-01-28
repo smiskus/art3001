@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Merienda&display=swap');
+
+body {
+    text-align: center;
+    font-family: 'Merienda', cursive;
+}
+
+article {
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: left;
+    background-color: aliceblue;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 20px;
+}
+
+a {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.facts {
+    font-weight:bolder;
+}
+
+.emphasized-cursive{
+    font-style: italic;
+    font-weight: 10px;    
+}
