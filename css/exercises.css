@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces&display=swap');
+
+.ex2-cursive-font {
+    font-family: 'Parisienne', cursive;
+}
+
+.ex2-fraunces-font {
+    font-family: 'Fraunces', serif;
+}
+
+.ex2-a {
+    text-decoration: none;
+    padding: 5px 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border-color: white;
+    border-width: 1px;
+}
+
+.ex2-gradient {
+    background: linear-gradient(#f87070, #9198e5);
+    padding: 20px;
+    border-style: solid;
+}
