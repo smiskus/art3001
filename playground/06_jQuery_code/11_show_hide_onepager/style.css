@@ -1,0 +1,25 @@
+.project {
+  width: 800px;
+  height: 800px;
+  display: none;
+}
+
+.link {
+  color: white;
+  background: black;
+  padding: 3px;
+  margin: 20px;
+  cursor: pointer;
+}
+
+#p1 {
+  background-color: cyan;
+}
+
+#p2 {
+  background: yellow;
+}
+
+#p3 {
+  background: limegreen;
+}
