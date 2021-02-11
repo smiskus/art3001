@@ -40,6 +40,11 @@ header a {
     color: white;
 }
 
+.black-white a {
+    text-decoration: none;
+    color: white;
+}
+
 .ribbon-black {
     padding: 1%;
     background-color: black;
@@ -53,7 +58,7 @@ header a {
 
 .container-black-white {
     display: grid;
-    grid-template-columns: 35% auto 29%;
+    grid-template-columns: 1fr 1fr 0.89fr;
     grid-template-rows: 1fr auto;
     grid-gap: 1em;
     object-fit: cover;
@@ -88,12 +93,12 @@ body {
 }
 
 .ribbon-red {
-    margin-top: 1px;
-    margin-bottom: 0px;
+    margin: 0;
     background-color: #E21C24;
     color: white;
     font-family: 'Cinzel', serif;
     text-align: left;
+    padding-left: 2%;
     font-size: 9vw;
 }
 
@@ -104,9 +109,9 @@ body {
 }
 
 .quote {
-    padding: 10px;
+    padding: 1%;
     color:#940D00;
-    font-size: 2vw;
+    font-size: 2.2vw;
     grid-area:  3 / 3 / span 1 / span 2;
     text-align: center;
 }
@@ -116,18 +121,29 @@ body {
     grid-area: 2 / 2 / span 2 / span 1;
     font-size: 3.5vw;
     margin: 0px;
-    padding: 0px 5px;
+    padding: 0px 2%;
+    padding-right: 2%;
     color: white;
     text-align: center;
 }
 
+.exercise-pages a:link {
+    text-decoration: none;
+    color: white;
+}
+
+.exercise-pages a:visited {
+    text-decoration: line-through;
+    color: white;
+}
+
 .ribbon-cranberry {
     background-color: #940D00;
-    font-size: 9vw;
+    font-size: 8.8vw;
     text-align: right;
     color: white;
     margin: 0px;
-    padding: 10px;
+    padding: 1%;
     grid-area: 4 / 1 / span 1 / span 4;
 }
 
@@ -145,11 +161,11 @@ body {
 
 .about-me {
     color: white;
-    font-size: 2vw;    
+    font-size: 1.75vw;    
 }
 
 .night-pics {
-    padding: 10% 0% 10% 10%;
+    padding: 10% 10% 5% 10%;
 }
 
 .night-row {
