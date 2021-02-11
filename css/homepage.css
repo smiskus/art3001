@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Euphoria+Script&family=Oleo+Script+Swash+Caps&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif&display=swap');
 
 header {
     font-family: 'Oleo Script Swash Caps', cursive;
@@ -7,18 +9,54 @@ header {
     letter-spacing: 0.3rem;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+header h3 {
+    padding: 0px;
+    margin: 5px;
+    font-size: 2vw;
+}
+
 header h2 {
     padding: 0px;
     margin: 5px;
-    font-size: 1.5rem;
+    font-size: 3vw;
 }
 
 header h1 {
-    
-      padding: 0px 0px;
+    padding: 0px 0px;
     margin: 0px 0px;
-    font-size: 3rem;
-    
+    font-size: 5vw;
+}
+
+header a {
+    padding: 10px;
+    background-color: black;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 20px;
+    color: white;
+}
+
+.ribbon-black {
+    padding: 1%;
+    background-color: black;
+    border-width: 1%;
+    border-style: solid;
+    border-color: white;
+    font-family: 'Cinzel', serif;
+    text-align: center;
+    font-size: 2vw;
+}
+
+.container-black-white {
+    display: grid;
+    grid-template-columns: 35% auto 29%;
+    grid-template-rows: 1fr auto;
+    grid-gap: 1em;
+    object-fit: cover;
 }
 
 hr {
@@ -31,15 +69,92 @@ hr {
 
 html {
     min-height: 100%;
+    min-width: 100%;
 }
 
 body {
-    background: linear-gradient(to bottom, rgb(49, 49, 49), rgb(122, 122, 122), rgb(247, 217, 136), rgb(252, 221, 49), rgb(161, 29, 29), rgb(90, 5, 139), rgb(33, 5, 85)), fixed;
+    background: linear-gradient(to bottom, rgb(49, 49, 49) 12%, rgb(122, 122, 122) 24%, rgb(247, 217, 136) 36%, rgb(252, 221, 49) 48%, rgb(161, 29, 29) 70%, rgb(90, 5, 139) 75%, rgb(2, 17, 155) 80%, rgb(33, 5, 85) 100%), fixed;
     margin: 0;    
 }
 
 .black-white {
     color: white;
-    padding: 0 5%;
-    font-size: 3em;
+    padding: 0 2%;
+    font-size: 1em;
+}
+
+.golden-age {
+    font-family: 'Cinzel', serif;
+}
+
+.ribbon-red {
+    margin-top: 1px;
+    margin-bottom: 0px;
+    background-color: #E21C24;
+    color: white;
+    font-family: 'Cinzel', serif;
+    text-align: left;
+    font-size: 9vw;
+}
+
+.container-color {
+    display: grid;
+    grid-template-columns: 0.5fr 1fr 1.5fr 2.5fr;
+    grid-template-rows: 0.1fr 1fr 0.2fr 0.5fr 0.4fr;
+}
+
+.quote {
+    padding: 10px;
+    color:#940D00;
+    font-size: 2vw;
+    grid-area:  3 / 3 / span 1 / span 2;
+    text-align: center;
+}
+
+.exercise-pages {
+    background-color: #534741;
+    grid-area: 2 / 2 / span 2 / span 1;
+    font-size: 3.5vw;
+    margin: 0px;
+    padding: 0px 5px;
+    color: white;
+    text-align: center;
+}
+
+.ribbon-cranberry {
+    background-color: #940D00;
+    font-size: 9vw;
+    text-align: right;
+    color: white;
+    margin: 0px;
+    padding: 10px;
+    grid-area: 4 / 1 / span 1 / span 4;
+}
+
+.night {
+    font-family:'Courier New', Courier, monospace;
+    padding-left: 10%;
+}
+
+.night-column {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 100;
+    flex: 1;
+}
+
+.about-me {
+    color: white;
+    font-size: 2vw;    
+}
+
+.night-pics {
+    padding: 10% 0% 10% 10%;
+}
+
+.night-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap:wrap;
+    width: 100%;
 }
