@@ -10,6 +10,17 @@ $(document).ready( function() {
     })    
 })
 
+$(window).scroll(function () {
+    var scrollTop = $(window).scrollTop();
+    console.log(scrollTop);
+    if ($(window).scrollTop() < 1100) {
+        var imgPos = scrollTop / 2 + 'px';
+        $('.film-strip-background').css(
+            'transform', 'translateY(' + imgPos + ')');
+    }
+    
+})
+
 function flashingLights() {
     var nightSection = document.getElementById("night");
     nightSection.style.borderColor = (nightSection.style.borderColor == 'rgb(255, 182, 23)') ? 'white' : 'rgb(255, 182, 23)';
