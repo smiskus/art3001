@@ -3,13 +3,18 @@
     <head>
         <title>Sara Miskus | ART 3001</title>
         <link rel="stylesheet" href="css/homepage.css">
-        <script src="js/parallax.js"></script>
         <script src="js/jquery.js"></script>
+        <script src="js/home.js"></script>
     </head>
 
     <body>
 
-        <header style="text-align: center;" class="fade-in">
+        <div class="film-strip-background">
+            <img class="film-strip-left" src="img/filmstrip.png">
+            <img class="film-strip-right" src="img/filmstrip.png">
+        </div> 
+
+        <header style="text-align: center;" class="hidden" id="home">
             <h3>Now Playing</h3>
             <h1>The Wonderful World of</h1>
             <h1>Art and Tech</h1>     
@@ -24,23 +29,27 @@
             </nav>            
         </header>
 
+        <div class="ticket">
+            <a href="#home">
+                <img src="img/ticket.png">
+            </a>            
+        </div>
+
         <div>        
-            <div class="film-strip-background">
-                <img class="film-strip-left" src="img/film2.png">
-                <img class="film-strip-right" src="img/film2.png">
-            </div>            
-            
             <div class="black-white">
                 <br>
                 <br>
+                <h2 class="ribbon-black">Were these the 'Good Old Days'? Or simply wrapped up in nostalgia?</h2>
                 <br>
-                <h2 class="ribbon-black">WERE THESE THE GOOD OLD DAYS? OR SIMPLY WRAPPED UP IN NOSTALGIA?</h2>
                 <div class="container-black-white">
                     <div style="grid-area: 1 / 1  / span 2 / 2;">
                         <img class="item-a" src="img/portrait.jpg">
                     </div>
                     <div id="blog" class="blog">
-                        <h2><a href="blog/">BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG BLOG</a></h2>
+                        <a href="blog/">
+                            <h2>The Weekly Blog</h2>
+                            <p>Peer into the weekly thoughts that are sometimes interesting, always random, and guaranteed to make you read something! Authored by a sensational writer who's never been published before, it's something that you can't miss.</p>
+                        </a>
                     </div> 
                     <div style="grid-area: 2 / 2 / 3 / 3;">
                         <img src="img/mickey.png">
@@ -60,13 +69,13 @@
                     </div>
                     <div class="exercise-pages">
                         <p>
-                            <a href="exercises/exercise1/">PAGE 0</a>
-                            <a href="exercises/exercise2/">PAGE 1</a>
-                            <a href="exercises/exercise3/">Page 2</a>
-                            <a href="exercises/exercise4/">Page 3</a>
-                            <a href="exercises/exercise5/">Page 4</a>
-                            <a href="exercises/exercise6/">Page 5</a>
-                            <a href="exercises/exercise7/">Page 6</a>
+                            <a href="exercises/exercise0.html">PAGE 0</a>
+                            <a href="exercises/exercise1/">PAGE 1</a>
+                            <a href="exercises/exercise2/">Page 2</a>
+                            <a href="exercises/exercise3.html">Page 3</a>
+                            <a href="exercises/exercise4/">Page 4</a>
+                            <a href="exercises/exercise5/">Page 5</a>
+                            <a href="exercises/exercise6/">Page 6</a>
                         </p>
                     </div>
                     <div style="grid-area: 2 / 3 / span 1 / span 1;">
@@ -85,7 +94,7 @@
                 </div>                      
             </div>
     
-            <div class="night">
+            <div class="night" id="night">
                 <div class="night-row">
                     <div class="night-column">
                         <div class="about-me" id="about-me">
@@ -113,9 +122,6 @@
                 </div>
             </div>
 
-        </div>
-
-      
-
+        </div>     
     </body>
 </html>

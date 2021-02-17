@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fraunces&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
 
 .ex2-cursive-font {
     font-family: 'Parisienne', cursive;
@@ -22,4 +23,12 @@
     background: linear-gradient(#f87070, #9198e5);
     padding: 20px;
     border-style: solid;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    background-color: #E21C24;
+    padding: 1%;
+    border-radius: 10px;
 }
