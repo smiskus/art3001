@@ -120,6 +120,30 @@ header a {
     font-size: 1.5vw;
 }
 
+.img-container {
+    position: relative;
+}
+
+.img-title {
+    position: absolute;
+    top: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: none;
+    font-size: 1vw;
+    color: white;
+}
+
+.img-title span {
+    display: block;
+    position: relative;
+    padding: 0 5%;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%) translateX(-5%);
+}
+
 .black-white a {
     text-decoration: none;
     color: white;
@@ -209,7 +233,7 @@ header a {
 .container-color-2 {
     display: grid;
     grid-template-columns: 1fr 1fr 1.5fr 2.5fr;
-    grid-template-rows: 0.3fr 0.5fr 0.3fr 1fr;
+    grid-template-rows: 0.3fr 0.57fr 0.3fr 0.90fr;
 }
 
 .ribbon-cranberry {
