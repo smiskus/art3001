@@ -35,7 +35,7 @@ $(window).scroll(function () {
 function influences() {
     if (index % 3 == 0) {
         $("#influence-img").attr("src", "img/wizardofoz.jpg");
-        $(".quote").html("<p>&quotIf I ever go looking for my heart's desire again, I won't look any further than my own backyard. Because if it isn't there, I never really lost it to begin with!&quot <br>-Dorothy Gale from <i>The Wizard of Oz</i></p>");
+        $(".quote").html("<p>&quotIt's always best to start at the beginning - and all you do is follow the Yellow Brick Road.&quot <br>-Glinda from <i>The Wizard of Oz</i><br><br></p>");
     } else if (index % 3 == 1) {
         $("#influence-img").attr("src", "img/pooh.png");
         $(".quote").html("<p>&quotPromise me you'll always remember: You're braver than you believe, and stronger than you seem, and smarter than you think.&quot <br>-Chrisopher Robin from <i>Winnie the Pooh</i></p>");    
