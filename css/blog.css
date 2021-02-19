@@ -118,3 +118,14 @@
     text-align: left;
     padding: 2%;
 }
+
+.blog-generic-content {
+    font-size: 1.2vw;
+    padding: 2% 10%;
+}
+
+.blog-generic-content a {
+    text-decoration: underline;
+    background-color: transparent;
+    color: white;
+}
