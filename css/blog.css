@@ -23,17 +23,26 @@
 
 .blog-wrapper {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
 }
 
 .blog-post {
     padding: 4%;
-    margin: 5%;
+    margin: 2%;
     border-width: 2%;
     border-color: white;
     border-style: solid;
     text-align: center;
     font-size: 2vw;
+}
+
+.blog-post a {
+    display: block;
+    position: relative;
+    padding: 0 5%;
+    top: 50%;
+    left: 5%;
+    transform: translateY(-50%) translateX(-5%);
 }
 
 .blog a {
