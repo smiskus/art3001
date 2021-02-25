@@ -36,15 +36,6 @@
     font-size: 2vw;
 }
 
-.blog-post a {
-    display: block;
-    position: relative;
-    padding: 0 5%;
-    top: 50%;
-    left: 5%;
-    transform: translateY(-50%) translateX(-5%);
-}
-
 .blog a {
     text-decoration: none;
     color: white;
