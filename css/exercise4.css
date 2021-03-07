@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
+
+body {
+    width: 100%;
+    margin: 0;
+    background-color: #ffe09f;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+img {
+    max-width: 100%;
+}
+
+header h1 {
+    font-size: 3rem;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 0;
+}
+
+header h2 {
+    font-size: 1rem;
+    text-align: center;
+}
+
+header nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.icons {
+    padding-top: 2rem;
+    padding-left: 1rem;
+}
+
+.sign-in {
+    padding-top: 2rem;
+    padding-right: 3rem;
+    text-align: right;
+}
+
+.sign-in a {
+    font-size: 1.3rem;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    background-color: #e93b00;
+    padding: 2rem 1rem;
+}
+
+.header-grid {
+    display: grid;
+    grid-template-columns: 1fr 4fr 1fr;
+}
+
+.nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    text-align: center;
+}
+
+.horse-icon {
+    margin: auto;
+    display: block;
+    max-width: 100%;
+}
+
+footer {
+    text-align: center;
+}
+
+/* Smartphones */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    /* Styles */
+}
+
+/* Desktops and laptops */
+@media only screen  and (min-width : 1224px) {
+    /* Styles */
+    header nav {
+        padding: 1rem;
+        background-color: #4a2c17;
+        position: relative;
+    }
+}
+    
+/* Large screens */
+@media only screen  and (min-width : 1824px) {
+/* Styles */
+}
+
