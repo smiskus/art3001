@@ -5,71 +5,72 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/exercise4.css">
+    <script src="../js/jquery.js"></script>
+    <script src="../js/p5.js"></script>
+    <script src="../js/exercise4.js"></script>
     <title>The Paperback Riders</title>
 </head>
 <body>
     <header>  
-        <div class="header-grid">
-            <div class="icons">
-                <a href="#"><img src="img/facebook.png"></a>
-                <a href="#"><img src="img/twitter.png"></a>
-                <a href="#"><img src="img/insta.png"></a>
+        <nav class="nav-bar">
+            <div class="nav-grid">
+                <a href="#">ABOUT</a>
+                <a href="#">JOIN</a>
+                <a href="#">EVENTS</a>
+                <a href="#">COMMUNITY</a>
+                <a href="#">SIGN IN</a>
             </div>
-            <div>
-                <h1>The Paperback Riders</h1>  
-                <h2><i>Who knows where a page will lead us?</i></h2>
-            </div>
-            <div class="sign-in">
-                <a href=#>Sign In</a>
-            </div>            
-        </div>
-        <br>
-        <nav class="nav-grid">
-            <a href="#">ABOUT</a>
-            <a href="#">JOIN</a>
-            <img style="display: inline-block; text-align: center;" class="horse-icon" src="img/horseIcon.png">
-            <a href="#">EVENTS</a>
-            <a href="#">COMMUNITY</a>
         </nav>
+        <div id="canvas"></div>
+        <div class="title">
+            <h1>The<br>Paperback<br>Riders</h1>  
+            <h2><i>Who knows where a page will lead us?</i></h2>       
+        </div>      
     </header>
-    <div>
+    <div class="content">        
         <div class="mission">
             <h2>Who We Are</h2>
             <p>We are adventurers, explorers, travelers, and most importantly readers of fiction! Our book club is over one hundred riders (members) strong. We host monthly meetings to discuss our latest finds, recommend books, and share our lives. We additionally put on special events ranging from socials to volunteering at local schools to read books to children. Books can transport you to new, undiscovered worlds. Are you brave enough to join?</p>
         </div>
         <div class="monthly-books">
+            <h2>Book of the Month</h2>
             <div class="book-grid">
-                <div class="book">
+                <div class="month1">
                     <h2>March</h2>
                 </div>
-                <div class="book">
+                <div class="month2">
                     <h2>February</h2>
                 </div>
-                <div class="book">
+                <div class="month3">
                     <h2>January</h2>
                 </div>
-                <div class="book">
+                <div class="previous">
                     <h2>See previous books</h2>
                 </div>
             </div>
         </div>
+        <h2>Member of the Month</h2>
         <div class="member-of-the-month">
-            <h2>Member of the Month</h2>
             <p>Lorem ipsum</p>
+            <p>Image</p>
         </div>
+        <h2>Recent Events</h2>
         <div class="event-highlights">
-            <h2>Recent Events</h2>
+
         </div>
+        <h2>Our Community</h2>
         <div class="community">
-            <h2>Be a part of the community!</h2>
             <h3>Join our newsletter</h3>
             <h3>Follow us on social media</h3>
         </div>
     </div>
     <footer>
         <div>
-            <p>Copyright 2021</p>
+            <a href="#"><img src="img/facebook.png"></a>
+            <a href="#"><img src="img/twitter.png"></a>
+            <a href="#"><img src="img/insta.png"></a>            
         </div>
+        <p>Copyright 2021</p>
     </footer>
 </body>
 </html>

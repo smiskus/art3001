@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
 body {
-    width: 100%;
     margin: 0;
     background-color: #ffe09f;
     font-family: 'Nanum Myeongjo', serif;
+    font-weight: bold;
+    min-height: 100vh;
 }
 
 img {
@@ -16,6 +17,7 @@ header h1 {
     text-align: center;
     text-decoration: none;
     margin-bottom: 0;
+    margin-top: 0;
 }
 
 header h2 {
@@ -23,14 +25,11 @@ header h2 {
     text-align: center;
 }
 
-header nav a {
-    text-decoration: none;
-    color: white;
-}
-
-.icons {
-    padding-top: 2rem;
-    padding-left: 1rem;
+canvas {
+    position: absolute;
+    z-index: 0;
+    max-width: 100%;
+    height: auto;
 }
 
 .sign-in {
@@ -48,15 +47,17 @@ header nav a {
     padding: 2rem 1rem;
 }
 
-.header-grid {
-    display: grid;
-    grid-template-columns: 1fr 4fr 1fr;
-}
-
-.nav-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+.content {
+    min-height: 100vh;
+    border-style: solid;
+    border-color: black;
     text-align: center;
+    position: relative;
+    z-index: 2;
+    margin: 0% 10% 5% 10%;
+    padding: 0% 2%;
+    background-color: white;
+    display: inline-block;
 }
 
 .horse-icon {
@@ -66,26 +67,127 @@ header nav a {
 }
 
 footer {
+    background-color:#20130a;
+    position: relative;
+    z-index: 2;
     text-align: center;
+    margin-bottom: 0;
+    color: white;
+    padding: 2% 0%;
+    margin: 0;
+}
+
+.month1 {
+    background-color: #ec744c;
+    padding: 2%;
+}
+
+.month2 {
+    background-color:#609459;
+    padding: 2%;
+}
+
+.month3 {
+    background-color:#3495a7; 
+    padding: 2%;
+}
+
+.previous {
+    background-color: #4654cc;
+    padding: 2%;
+}
+
+.member-of-the-month {
+    display: grid;
+    background-color: #ec744c;
+    padding: 2%;
+}
+
+.event-highlights {
+    background-color: #609459;
+    padding: 2%;
+}
+
+.community {
+    background-color:#3495a7; 
+    padding: 2%;
+    margin-bottom: 5%;
 }
 
 /* Smartphones */
-@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
-    /* Styles */
+@media only screen and (min-width : 320px) {
+    .book-grid{
+        display: flexbox;
+        color: white;
+    }
+
+    .title {
+        border-style: solid;
+        border-color:#20130a;
+        background-color: white;
+        padding: 2%;
+        position: relative;
+        margin: 5% 25% 2% 25%;
+    }
+
+    header nav {
+        overflow: hidden;
+        background-color: #20130a;
+        position: fixed;
+    }
+
+    header nav a {
+        text-decoration: none;
+        color: white;
+        display: none;
+        padding: 14px 16px;
+        font-size: 1rem;
+        display: block;
+    }
 }
 
 /* Desktops and laptops */
 @media only screen  and (min-width : 1224px) {
-    /* Styles */
-    header nav {
-        padding: 1rem;
-        background-color: #4a2c17;
+
+    .book-grid {
+        color: white;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .title {
+        border-style: solid;
+        border-color:#20130a;
+        background-color: white;
+        padding: 2%;
         position: relative;
+        margin: 5% 35% 2% 35%;
+    }
+
+    .nav-grid {
+        display: grid;
+        max-width: 100%;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        text-align: center;
+    }
+
+    .nav-bar {
+        padding: 1%;
+        background-color: #20130a;
+        position: fixed;
+        margin-top: -80px;
+        z-index: 3;
+        width: 100%;
+    }
+
+    .nav-bar a {
+        color: white;
+        text-decoration: none;
     }
 }
     
 /* Large screens */
 @media only screen  and (min-width : 1824px) {
-/* Styles */
+
 }
 
