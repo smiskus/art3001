@@ -8,6 +8,10 @@
     color: white;
 }
 
+img {
+    max-width: 100%;
+}
+
 .blog header {
     text-align: center;
 }
