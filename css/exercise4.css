@@ -78,29 +78,51 @@ footer {
 }
 
 .month1 {
+    justify-content: center;
     background-color: #ec744c;
     padding: 2%;
 }
 
 .month2 {
+    justify-content: center;
     background-color:#609459;
     padding: 2%;
 }
 
 .month3 {
+    justify-content: center;
     background-color:#3495a7; 
     padding: 2%;
 }
 
+.book {
+    height: 200px;
+}
+
 .previous {
+    justify-content: center;
     background-color: #4654cc;
     padding: 2%;
 }
 
 .member-of-the-month {
     display: grid;
+    grid-template-columns: auto 1fr;
+    color: white;
     background-color: #ec744c;
     padding: 2%;
+}
+
+.member-info {
+    padding: 5%;
+    text-align: left;
+}
+
+.member-picture {
+    height: 300px;
+    margin: auto;
+    display: block;
+    max-width: 100%;
 }
 
 .event-highlights {
@@ -116,6 +138,15 @@ footer {
 
 /* Smartphones */
 @media only screen and (min-width : 320px) {
+
+    header h1 {
+        font-size: 2.5rem;
+        text-align: center;
+        text-decoration: none;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+
     .book-grid{
         display: flexbox;
         color: white;
@@ -127,7 +158,7 @@ footer {
         background-color: white;
         padding: 2%;
         position: relative;
-        margin: 5% 25% 2% 25%;
+        margin: 5% 18% 2% 18%;
     }
 
     header nav {
@@ -157,6 +188,63 @@ footer {
 
     .title {
         border-style: solid;
+        border-color:black;
+        background-color: white;
+        padding: 2%;
+        position: relative;
+        margin: 5% 35% 2% 35%;
+    }
+
+    .nav-grid {
+        display: grid;
+        max-width: 100%;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        text-align: center;
+    }
+
+    .nav-bar {
+        padding: 1%;
+        background-color: #3a2312;
+        position: fixed;
+        margin-top: -80px;
+        z-index: 3;
+        width: 100%;
+    }
+
+    .nav-bar a {
+        color: white;
+        text-decoration: none;
+    }
+}
+    
+/* Large screens */
+@media only screen  and (min-width : 1824px) {
+
+    header h1 {
+        font-size: 5rem;
+        text-align: center;
+        text-decoration: none;
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+    
+    header h2 {
+        font-size: 2rem;
+        text-align: center;
+    }    
+
+    body {
+        font-size: 1.5vw;
+    }
+
+    .book-grid {
+        color: white;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .title {
+        border-style: solid;
         border-color:#20130a;
         background-color: white;
         padding: 2%;
@@ -175,7 +263,7 @@ footer {
         padding: 1%;
         background-color: #20130a;
         position: fixed;
-        margin-top: -80px;
+        margin-top: -130px;
         z-index: 3;
         width: 100%;
     }
@@ -184,10 +272,5 @@ footer {
         color: white;
         text-decoration: none;
     }
-}
-    
-/* Large screens */
-@media only screen  and (min-width : 1824px) {
-
 }
 

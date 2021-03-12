@@ -63,7 +63,7 @@ $(window).scroll(function () {
 })
 
 function setup() {
-    var canvas = createCanvas(windowWidth, windowHeight);
+    var canvas = createCanvas(windowWidth, windowHeight * 2);
     canvas.parent('canvas');
     background("#ffe09f");   
     textFont('Georgia'); 
@@ -72,9 +72,14 @@ function setup() {
 function draw() {
     timeDelay++;
     if (drawCalled < 300 && timeDelay % 5 == 0){
-        drawCalled++;     
-        textSize(random(12, 30));
+        drawCalled++;    
+        if (windowWidth > 1440) {
+            textSize(random(20, 40));
+        } else {
+            textSize(random(12, 30));
+        }
+        
         fill(0, 0, 0, random(transparency));
-        text(random(books), random(-100, innerWidth), random(0, innerHeight));        
+        text(random(books), random(-100, innerWidth), random(0, innerHeight * 2));        
     }
 }
