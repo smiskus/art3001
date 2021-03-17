@@ -183,6 +183,28 @@ footer {
         margin-top: 0;
     }
 
+    .nav-bar {
+        padding: 0;
+        background-color: #3a2312;
+        overflow: hidden;
+        position: relative;
+        padding: 10px;
+    }
+
+    .mobile {
+        text-decoration: none;
+        color: white;
+        position: absolute;
+        top: 0;
+        right:0;
+        z-index: 2;
+    }
+
+    .nav-bar a:hover {
+        background-color: #775034;
+        color: white;
+    }
+
     .book-grid{
         display: block;
         color: white;
@@ -203,19 +225,25 @@ footer {
         position: relative;
     }
 
-    header nav a {
-        float: left;
-        text-decoration: none;
-        color: white;
-        padding: 14px 16px;
-        font-size: 1vw;
-        display: block;
-    }
-
     .nav-grid {
         display: none;
     }
 
+    .nav-bar a {
+        text-decoration: none;
+        color:white;
+        padding: 10px;
+    }
+
+    .nav-grid a {
+        color: white;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 0.7rem;
+        display: block;
+        z-index: 2;
+    }
+    
     .member-of-the-month {
         display: block;
         color: white;
@@ -252,6 +280,13 @@ footer {
         font-size: 1rem;
         font-family: 'Nanum Myeongjo', serif;
     }
+
+    .member-picture {
+        height: 250px;
+        margin: auto;
+        display: block;
+        max-width: 100%;
+    }
 }
 
 /* Desktops and laptops */
@@ -261,6 +296,10 @@ footer {
         color: white;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .mobile {
+        display:none;
     }
 
     .title {
@@ -307,10 +346,21 @@ footer {
         text-align: left;
         background-color:#1c626e; 
     }
+
+    .member-picture {
+        height: 300px;
+        margin: auto;
+        display: block;
+        max-width: 100%;
+    }
 }
     
 /* Large screens */
 @media only screen  and (min-width : 1824px) {
+
+    .mobile {
+        display: none;
+    }
 
     header h1 {
         font-size: 5rem;
@@ -363,6 +413,13 @@ footer {
     .nav-bar a {
         color: white;
         text-decoration: none;
+    }
+
+    .member-picture {
+        height: 600px;
+        margin: auto;
+        display: block;
+        max-width: 100%;
     }
 }
 

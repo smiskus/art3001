@@ -62,6 +62,16 @@ $(window).scroll(function () {
     
 })
 
+function myFunction() {
+    if ($(".nav-grid").css("display") == "block") {
+        console.log("hello there NONE");
+        $(".nav-grid").css("display", "none");
+        } else {
+        console.log("hello there BLOCK");
+        $(".nav-grid").css("display", "block");
+    }
+}
+
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight * 2);
     canvas.parent('canvas');
