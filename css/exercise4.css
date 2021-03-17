@@ -2,7 +2,7 @@
 
 body {
     margin: 0;
-    background-color: #ffe09f;
+    background-color: #ffc285;
     font-family: 'Nanum Myeongjo', serif;
     font-weight: bold;
     min-height: 100vh;
@@ -95,6 +95,25 @@ footer {
     padding: 2%;
 }
 
+.event {
+    justify-content: center;
+    background-color:#222966; 
+    padding: 2%;
+    margin: 1%;
+}
+
+.event a {
+    text-decoration: none;
+    color: #3495a7;
+}
+
+.community-content {
+    background-color: #1f3f1a;
+    color: white;
+    padding: 2%;
+    margin: 1%;
+}
+
 .book {
     height: 200px;
 }
@@ -109,13 +128,14 @@ footer {
     display: grid;
     grid-template-columns: auto 1fr;
     color: white;
-    background-color: #ec744c;
+    background-color: #3495a7;
     padding: 2%;
 }
 
 .member-info {
     padding: 5%;
     text-align: left;
+    background-color:#1c626e; 
 }
 
 .member-picture {
@@ -126,14 +146,30 @@ footer {
 }
 
 .event-highlights {
-    background-color: #609459;
+    background-color: #4654cc;
     padding: 2%;
 }
 
 .community {
-    background-color:#3495a7; 
+    background-color:#609459; 
     padding: 2%;
-    margin-bottom: 5%;
+    margin-bottom: 5%;    
+}
+
+.community-content button {
+    background-color: #ec744c;
+    border: none;
+    color: black;
+    padding: 2%;
+    font-size: 0.9vw;
+    font-family: 'Nanum Myeongjo', serif;
+    font-weight: bolder;
+    margin: 0% 1%;
+}
+
+.community-content input {
+    font-size: 1.5vw;
+    font-family: 'Nanum Myeongjo', serif;
 }
 
 /* Smartphones */
@@ -148,7 +184,7 @@ footer {
     }
 
     .book-grid{
-        display: flexbox;
+        display: block;
         color: white;
     }
 
@@ -164,16 +200,57 @@ footer {
     header nav {
         overflow: hidden;
         background-color: #20130a;
-        position: fixed;
+        position: relative;
     }
 
     header nav a {
+        float: left;
         text-decoration: none;
         color: white;
-        display: none;
         padding: 14px 16px;
-        font-size: 1rem;
+        font-size: 1vw;
         display: block;
+    }
+
+    .nav-grid {
+        display: none;
+    }
+
+    .member-of-the-month {
+        display: block;
+        color: white;
+        background-color: #3495a7;
+        padding: 2%;
+    }
+
+    .member-info {
+        padding: 5%;
+        text-align: center;
+        background-color:#1c626e; 
+        margin-top: 2%;
+    }
+    
+    .member-picture {
+        height: 300px;
+        margin: auto;
+        display: block;
+        max-width: 100%;
+    }
+
+    .community-content button {
+        background-color: #ec744c;
+        border: none;
+        color: black;
+        padding: 2%;
+        font-size: 1rem;
+        font-family: 'Nanum Myeongjo', serif;
+        font-weight: bolder;
+        margin: 0% 1%;
+    }
+    
+    .community-content input {
+        font-size: 1rem;
+        font-family: 'Nanum Myeongjo', serif;
     }
 }
 
@@ -203,7 +280,7 @@ footer {
     }
 
     .nav-bar {
-        padding: 1%;
+        padding: 0;
         background-color: #3a2312;
         position: fixed;
         margin-top: -80px;
@@ -214,6 +291,21 @@ footer {
     .nav-bar a {
         color: white;
         text-decoration: none;
+        font-size: 1.2vw;
+    }
+
+    .member-of-the-month {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        color: white;
+        background-color: #3495a7;
+        padding: 2%;
+    }
+
+    .member-info {
+        padding: 5%;
+        text-align: left;
+        background-color:#1c626e; 
     }
 }
     

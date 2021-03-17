@@ -65,7 +65,7 @@ $(window).scroll(function () {
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight * 2);
     canvas.parent('canvas');
-    background("#ffe09f");   
+    background("#ffc285");   
     textFont('Georgia'); 
 }
 
