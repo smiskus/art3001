@@ -55,7 +55,7 @@
 }
 
 .introvert {
-    margin-top: 40px;
+    top: 10%;
     width: 100%;
     font-size: 1.9em;
     text-align: center;
@@ -65,14 +65,15 @@
     transition: font-size 0.8s ease;
     position: absolute;
     z-index: 2;
+    padding: 0;
 }
 
 .introvert:hover {
-    font-size: 1em;
+    font-size: 1.4em;
 }
 
 .extrovert {
-    margin-top: 500px;
+    top: 60%;
     width: 100%;
     font-size: 1.9em;
     text-align: center;
@@ -82,10 +83,33 @@
     transition: font-size 0.8s ease;
     position: absolute;
     z-index: 2;
+    padding: 0;
 }
 
 .extrovert:hover {
-    font-size: 2.9em;
+    font-size: 2.4em;
+}
+
+.type {
+    top: 80%;
+    font-size: 1em;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    z-index: 2;
+    position: absolute;
+    display: none;
+}
+
+.back {
+    top: 88%;
+    font-size: 0.7em;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    z-index: 2;
+    position: absolute;
+    display: none;
 }
 
 .ex-5-home {
