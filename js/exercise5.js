@@ -4,8 +4,40 @@ var time = 0;
 var currentMode = 0;
 let introvertedParticles = [];
 let extrovertedParticles = [];
-var introvertColors = ['blue', 'purple', 'green', 'aqua', 'dodgerblue'];
+let ripples = [];
+var textX = 0;
+var textY = 0;
+var textIndex = 0;
+var textSizeDesc;
+var textFill;
+
+var introvertText = [
+  "I've been known as an introvert for most of my life."
+]
+
+var extrovertText = [
+  "I always wanted to be an extrovert.",
+  "I thought extroverts were confident all the time because they appeared to be.",
+  "And I really hated when people said I was too quiet."
+]
+
+var introvertColors = ['blue', 'purple', 'violet', 'aqua', 'dodgerblue'];
 var extrovertColors = ['yellow', 'red', 'orange', 'gold', 'lightpink'];
+
+var mouseOffset1 = 0;
+var mouseOffset2 = 0;
+var offset1 = 1;
+var offset2 = 1;
+const mouseOffset1Max = 10;
+const mouseOffset2Max = 20;
+
+var rippleX;
+var rippleY;
+var rippleRadius = 1;
+var maxRippleRadius = 50;
+var lastMouseX = 0;
+var lastMouseY = 0;
+
 const defaultMode = 0;
 const hoverIntro = 1;
 const hoverExtro = 2;
@@ -41,6 +73,10 @@ $(document).ready( function() {
         $(".type").html("INTROVERT");
         $("#back").css("display", "block");
         $("#home").css("display", "none");
+        textX = random(200, width / 2);
+        textY = random(200, height - 200);
+        textFill = introvertColors[Math.floor(Math.random() * introvertColors.length)];
+        textSizeDesc = random(30, 50);
     })
 
     $(".extrovert").click(function() {        
@@ -51,6 +87,10 @@ $(document).ready( function() {
         $(".type").html("EXTROVERT");
         $("#back").css("display", "block");
         $("#home").css("display", "none");
+        textX = random(200, width / 2);
+        textY = random(200, height - 200);
+        textFill = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
+        textSizeDesc = random(30, 50);
     })
 })
 
@@ -64,6 +104,7 @@ function setup() {
         introvertedParticles.push(new Particle(introvertColors, "circle"));
         extrovertedParticles.push(new Particle(extrovertColors, "square"));
     }
+    maxRippleRadius = width / 20;
 }
 
 function windowResized() {
@@ -92,37 +133,57 @@ function draw() {
           break;
       case extroMode:          
           background("#1b142a");  
-          drawParticles(extrovertedParticles)   
+          drawParticles(extrovertedParticles)            
+          extrovert();
           squareCursor();
           break;
       case introMode:
           background("#1b142a");  
-          drawParticles(introvertedParticles)
-          sphereCursor(); 
+          drawParticles(introvertedParticles)          
+          introvert();   
+          sphereCursor();        
           break;
       default:
           break;
   }
 }
 
+function introvert() {
+  if (time % 2 == 0 && !(lastMouseX == mouseX && lastMouseY == mouseY)) {
+    ripples.push(new Ripple(introvertColors, "circle", mouseX, mouseY));
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+  }  
+  for(let i = 0;i<ripples.length;i++) {
+    ripples[i].ripple();
+  }
+  trimRipples();
+  spawnDescriptors(introvertText, introvertColors);
+}
+
+function extrovert() {
+  if (time % 2 == 0 && !(lastMouseX == mouseX && lastMouseY == mouseY)) {
+    ripples.push(new Ripple(extrovertColors, "square", mouseX - (maxRippleRadius / 2), mouseY - (maxRippleRadius / 2)));
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+  }  
+  for(let i = 0;i<ripples.length;i++) {
+    ripples[i].ripple();
+  }
+  trimRipples();
+  spawnDescriptors(extrovertText, extrovertColors);
+}
+
 function squareCursor() {
   noStroke();
   fill('gold');
-  square(mouseX, mouseY, 50);
-  fill('orange');
-  square(mouseX - 35, mouseY + 35, 40);
-  fill('red');
-  square(mouseX - 55, mouseY + 45, 20);
+  square(mouseX - (maxRippleRadius / 2), mouseY - (maxRippleRadius / 2), maxRippleRadius);
 }
 
 function sphereCursor() {
   noStroke();
   fill('aqua');
-  ellipse(mouseX, mouseY, 50, 50);
-  fill('purple');
-  ellipse(mouseX - 35, mouseY + 35, 40, 40);
-  fill('limegreen');
-  ellipse(mouseX - 55, mouseY + 45, 20, 20);
+  ellipse(mouseX, mouseY, maxRippleRadius);
 }
 
 function drawStartingSymbol() {
@@ -133,11 +194,69 @@ function drawStartingSymbol() {
     circle(width / 2, height / 2, height / 4);
 }
 
+function spawnDescriptors(list, colors) {
+  console.log(dist(textX, textY, mouseX, mouseY));
+  if (mouseIsPressed && dist(textX, textY, mouseX, mouseY) < 50) {
+    textX = random(200, width / 2);
+    textY = random(200, height - 200);
+    textIndex = (textIndex + 1) % list.length;
+    textSizeDesc = random(30, 50);
+    textFill = colors[Math.floor(Math.random() * colors.length)];
+  }
+  fill(textFill);
+  stroke(textFill);
+  strokeWeight(1);
+  textSize(textSizeDesc);
+  textFont('Montserrat');
+  text(list[textIndex], textX, textY);
+}
+
 function drawParticles(particles) {
     for(let i = 0;i<particles.length;i++) {
         particles[i].createParticle(color);
         particles[i].moveParticle();
     }
+}
+
+function trimRipples() {
+  let tempArray = [];
+  for (let i = 0; i < ripples.length; i++) {
+    if (ripples[i].active) {
+      tempArray.push(ripples[i]);
+    }
+  }
+  ripples = tempArray;
+}
+
+class Ripple {
+  constructor(colors, shape, x, y) {
+    this.shape = shape;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.x = x;
+    this.y = y;
+    this.r = maxRippleRadius;
+    this.active = true;
+  }
+
+  ripple() {
+    if (this.r > 0) {
+      noFill();
+      stroke(this.color);
+      strokeWeight(2);     
+      if (this.shape == "circle") {
+        circle(this.x, this.y, this.r);
+        circle(this.x, this.y, this.r / 2);
+        circle(this.x, this.y, this.r / 4);
+      } else if (this.shape == "square") {
+        square(this.x, this.y, this.r);
+        square(this.x + (this.r / 4), this.y + (this.r/4), this.r / 2);
+        square(this.x + (this.r / 4) + (this.r / 8), this.y + (this.r / 4) + (this.r / 8), this.r / 4);
+      }
+      this.r -= 2;                
+    } else {
+      this.active = false;
+    }
+  }
 }
 
 // this class describes the properties of a single particle.
