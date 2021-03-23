@@ -39,6 +39,8 @@ $(document).ready( function() {
         $(".extrovert").css("display", "none");
         $(".type").css("display", "block");
         $(".type").html("INTROVERT");
+        $("#back").css("display", "block");
+        $("#home").css("display", "none");
     })
 
     $(".extrovert").click(function() {        
@@ -47,6 +49,8 @@ $(document).ready( function() {
         $(".extrovert").css("display", "none");
         $(".type").css("display", "block");
         $(".type").html("EXTROVERT");
+        $("#back").css("display", "block");
+        $("#home").css("display", "none");
     })
 })
 
@@ -143,7 +147,7 @@ class Particle {
   constructor(colors, shape){
     this.x = random(0,width);
     this.y = random(0,height);
-    this.r = random(1,20);
+    this.r = random(5,20);
     this.color = colors[Math.floor(Math.random() * colors.length)];
     this.shape = shape;
     this.xSpeed = random(-2,2);

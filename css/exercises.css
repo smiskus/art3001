@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fraunces&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
 
 .ex2-cursive-font {
     font-family: 'Parisienne', cursive;
@@ -32,97 +31,4 @@
     background-color: #E21C24;
     padding: 1%;
     border-radius: 10px;
-}
-
-.ex-5 {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    min-width: 100vw;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    padding: 0;
-    margin-top: -20px;
-    position: relative;
-    z-index: 2;
-    background-color: #1b142a;
-}
-
-.ex-5-text {
-    text-align: center;
-    font-size: 3vw;
-    color: white;
-}
-
-.introvert {
-    top: 10%;
-    width: 100%;
-    font-size: 1.9em;
-    text-align: center;
-    -webkit-transition: font-size 0.8s ease;
-    -moz-transition: font-size 0.8s ease;
-    -o-transition: font-size 0.8s ease;
-    transition: font-size 0.8s ease;
-    position: absolute;
-    z-index: 2;
-    padding: 0;
-}
-
-.introvert:hover {
-    font-size: 1.4em;
-}
-
-.extrovert {
-    top: 60%;
-    width: 100%;
-    font-size: 1.9em;
-    text-align: center;
-    -webkit-transition: font-size 0.8s ease;
-    -moz-transition: font-size 0.8s ease;
-    -o-transition: font-size 0.8s ease;
-    transition: font-size 0.8s ease;
-    position: absolute;
-    z-index: 2;
-    padding: 0;
-}
-
-.extrovert:hover {
-    font-size: 2.4em;
-}
-
-.type {
-    top: 80%;
-    font-size: 1em;
-    text-align: center;
-    width: 100%;
-    padding: 0;
-    z-index: 2;
-    position: absolute;
-    display: none;
-}
-
-.back {
-    top: 88%;
-    font-size: 0.7em;
-    text-align: center;
-    width: 100%;
-    padding: 0;
-    z-index: 2;
-    position: absolute;
-    display: none;
-}
-
-.ex-5-home {
-    color: white;
-    position: relative;
-    z-index: 3;
-    font-size: 1.5vw;
-    padding: 10px;
-}
-
-#canvas {
-    position: absolute;
-    z-index: 0;
-    max-width: 100%;
-    height: auto;
 }
