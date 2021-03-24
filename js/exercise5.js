@@ -10,15 +10,18 @@ var textY = 0;
 var textIndex = 0;
 var textSizeDesc;
 var textFill;
+var currentTextSize = 1;
+var particleMode = 0;
+var numOfParticleModes = 8;
 
 var introvertText = [
-  "I've been known as an introvert for most of my life."
+  "Intovert"
 ]
 
 var extrovertText = [
-  "I always wanted to be an extrovert.",
-  "I thought extroverts were confident all the time because they appeared to be.",
-  "And I really hated when people said I was too quiet."
+  "Extrovert",
+  "1 - Extrovert",
+  "2- extrovert"
 ]
 
 var introvertColors = ['blue', 'purple', 'violet', 'aqua', 'dodgerblue'];
@@ -195,26 +198,70 @@ function drawStartingSymbol() {
 }
 
 function spawnDescriptors(list, colors) {
-  console.log(dist(textX, textY, mouseX, mouseY));
-  if (mouseIsPressed && dist(textX, textY, mouseX, mouseY) < 50) {
-    textX = random(200, width / 2);
-    textY = random(200, height - 200);
+  if (mouseIsPressed) {
     textIndex = (textIndex + 1) % list.length;
-    textSizeDesc = random(30, 50);
     textFill = colors[Math.floor(Math.random() * colors.length)];
+    currentTextSize = 1;
+    if (list[textIndex].length > 40) {
+      textSizeDesc = random(20, 35);
+      textX = random(200, width / 2 - (width / 3));
+      textY = random(200, height - 200);
+    } else {
+      textSizeDesc = (30, 50);
+      textX = random(200, width / 2);
+      textY = random(200, height - 200);
+    }
+    particleMode = (particleMode + 1) % numOfParticleModes;
+  }
+  if (currentTextSize < textSizeDesc) {
+    currentTextSize++;
+    textX-=3;
+    textY++;
   }
   fill(textFill);
   stroke(textFill);
   strokeWeight(1);
-  textSize(textSizeDesc);
+  textSize(currentTextSize);
   textFont('Montserrat');
-  text(list[textIndex], textX, textY);
+  text(list[textIndex] + particleMode, textX, textY);
 }
 
 function drawParticles(particles) {
     for(let i = 0;i<particles.length;i++) {
         particles[i].createParticle(color);
-        particles[i].moveParticle();
+        switch (particleMode) {
+          case 0:
+            particles[i].moveParticle();
+            break;
+          case 1:
+            particles[i].clusterParticles(particles);
+            particles[i].moveParticle();
+            break;
+          case 2:
+            particles[i].unclusterParticle();
+            particles[i].moveParticle();
+            break;
+          case 3:
+            particles[i].verticalLineParticles();
+            break;
+          case 4: 
+            particles[i].horizontalLineParticles();
+            break;
+          case 5:
+            particles[i].gridParticles();
+            break;
+          case 6:
+            particles[i].scatterParticle();
+            break;
+          case 7:
+            particles[i].unscatterParticles();
+            particles[i].moveParticle();
+            break;
+          case 8:
+            particles[i].fallingDown();
+          default:
+            break;
+        }
     }
 }
 
@@ -271,6 +318,7 @@ class Particle {
     this.shape = shape;
     this.xSpeed = random(-2,2);
     this.ySpeed = random(-1,1.5);
+    this.cluster = 0;
   }
 
 // creation of a particle.
@@ -290,6 +338,97 @@ class Particle {
       this.xSpeed*=-1;
     if(this.y < 0 || this.y > height)
       this.ySpeed*=-1;
+    this.x+=this.xSpeed;
+    this.y+=this.ySpeed;
+  }
+
+  clusterParticles(particles) {
+    for (let i = 0; i < particles.length; i++) {
+      if (this.cluster < 6 && (dist(this.x, this.y, particles[i].x, particles[i].y) < 50)) {
+        this.xSpeed = particles[i].xSpeed;
+        this.ySpeed = particles[i].ySpeed;
+        this.cluster++;
+      }
+    }
+  }
+
+  unclusterParticle() {
+    if (this.cluster > 0) {
+      this.xSpeed = random(-2,2);
+      this.ySpeed = random(-1,1.5);
+      this.cluster = 0;
+    }
+  }
+
+  verticalLineParticles() {
+    if(this.x < 0 || this.x > width)
+    this.xSpeed*=-1;
+    if(this.y < 0 || this.y > height)
+    this.ySpeed*=-1;
+    if (Math.floor(this.x) % 10 == 0) {
+      this.y+=this.ySpeed;
+    } else {
+      this.x+=this.xSpeed;
+      this.y+=this.ySpeed;
+    }
+  }
+
+  horizontalLineParticles() {
+    if(this.x < 0 || this.x > width)
+    this.xSpeed*=-1;
+    if(this.y < 0 || this.y > height)
+    this.ySpeed*=-1;
+    if (Math.floor(this.y) % 10 == 0) {
+      this.x+=this.xSpeed;
+    } else {
+      this.x+=this.xSpeed;
+      this.y+=this.ySpeed;
+    }
+  }
+
+  gridParticles() {
+    if(this.x < 0 || this.x > width)
+    this.xSpeed*=-1;
+    if(this.y < 0 || this.y > height)
+    this.ySpeed*=-1;
+    if (Math.floor(this.y) % 10 != 0 || Math.floor(this.x) % 10 != 0) {
+      this.x+=this.xSpeed;
+      this.y+=this.ySpeed;
+    }
+  }
+
+  scatterParticle() {
+    this.x+=this.xSpeed;
+    this.y+=this.ySpeed;
+    return (this.x < 0 || this.x > width) && (this.y < 0 && this.y > height);
+  }
+
+  unscatterParticles() {
+    if (this.x < 0 || this.x > width) {
+      this.xSpeed*=-1;
+      if (this.x < 0) {
+        this.x = 0; 
+      } else {
+        this.x = width;
+      }     
+    }
+    if(this.y < 0 || this.y > height) {
+      this.ySpeed*=-1;
+      if (this.y < 0) {
+        this.y = 0;
+      } else {
+        this.y = height;
+      }
+    }
+  }
+
+  fallingDown() {
+    if (this.ySpeed < 0) {
+      this.ySpeed*= -1;
+    }
+    if (this.x == 0) {
+      this.xSpeed/= 2;
+    }
     this.x+=this.xSpeed;
     this.y+=this.ySpeed;
   }
