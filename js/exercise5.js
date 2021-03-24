@@ -12,7 +12,9 @@ var textSizeDesc;
 var textFill;
 var currentTextSize = 1;
 var particleMode = 0;
-var numOfParticleModes = 8;
+var numOfParticleModes = 9;
+var powerupRadius;
+var powerUp;
 
 var introvertText = [
   "Introvert: "
@@ -35,7 +37,7 @@ const mouseOffset2Max = 20;
 var rippleX;
 var rippleY;
 var rippleRadius = 1;
-var maxRippleRadius = 50;
+var maxRippleRadius = 20;
 var lastMouseX = 0;
 var lastMouseY = 0;
 
@@ -78,6 +80,8 @@ $(document).ready( function() {
         textY = random(200, height - 200);
         textFill = introvertColors[Math.floor(Math.random() * introvertColors.length)];
         textSizeDesc = random(30, 50);
+        powerupRadius = random(50, 100);
+        powerUp = new PowerUp(introvertColors, "circle");
     })
 
     $(".extrovert").click(function() {        
@@ -92,6 +96,8 @@ $(document).ready( function() {
         textY = random(200, height - 200);
         textFill = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
         textSizeDesc = random(30, 50);
+        powerupRadius = random(50, 100);
+        powerUp = new PowerUp(extrovertColors, "square");
     })
 })
 
@@ -159,7 +165,9 @@ function introvert() {
     ripples[i].ripple();
   }
   trimRipples();
-  spawnDescriptors(introvertText, introvertColors);
+  powerUp.drawPowerUp();
+  powerUp.checkHasBeenClicked();
+  updateDescriptors(introvertText, introvertColors);
 }
 
 function extrovert() {
@@ -172,7 +180,9 @@ function extrovert() {
     ripples[i].ripple();
   }
   trimRipples();
-  spawnDescriptors(extrovertText, extrovertColors);
+  powerUp.drawPowerUp();
+  powerUp.checkHasBeenClicked();
+  updateDescriptors(extrovertText, extrovertColors);
 }
 
 function squareCursor() {
@@ -195,33 +205,34 @@ function drawStartingSymbol() {
     circle(width / 2, height / 2, height / 4);
 }
 
-function spawnDescriptors(list, colors) {
-  if (mouseIsPressed) {
-    textIndex = (textIndex + 1) % list.length;
-    textFill = colors[Math.floor(Math.random() * colors.length)];
-    currentTextSize = 1;
-    if (list[textIndex].length > 40) {
-      textSizeDesc = random(20, 35);
-      textX = random(200, width / 2 - (width / 3));
-      textY = random(200, height - 200);
-    } else {
-      textSizeDesc = (30, 50);
-      textX = random(200, width / 2);
-      textY = random(200, height - 200);
-    }
-    particleMode = (particleMode + 1) % numOfParticleModes;
-  }
+function updateDescriptors(list) {
   if (currentTextSize < textSizeDesc) {
     currentTextSize++;
     textX-=3;
     textY++;
   }
   fill(textFill);
-  stroke(textFill);
+  stroke("white");
   strokeWeight(1);
   textSize(currentTextSize);
   textFont('Montserrat');
   text(list[textIndex] + particleMode, textX, textY);
+}
+
+function spawnNewDescriptor(list, colors) {
+  textIndex = (textIndex + 1) % list.length;
+  textFill = colors[Math.floor(Math.random() * colors.length)];
+  currentTextSize = 1;
+  if (list[textIndex].length > 40) {
+    textSizeDesc = random(20, 35);
+    textX = random(200, width / 2 - (width / 3));
+    textY = random(200, height - 200);
+  } else {
+    textSizeDesc = (30, 50);
+    textX = random(200, width / 2);
+    textY = random(200, height - 200);
+  }
+  particleMode = Math.floor(random(0, numOfParticleModes));  
 }
 
 function drawParticles(particles) {
@@ -273,6 +284,60 @@ function trimRipples() {
   ripples = tempArray;
 }
 
+class PowerUp {
+  constructor(colors, shape) {
+    this.r = powerupRadius;
+    this.colors = colors;
+    this.color = this.colors[Math.floor(Math.random() * colors.length)];
+    this.x = random(powerupRadius,width - powerupRadius);
+    this.y = random(powerupRadius,height - powerupRadius);
+    this.type = random(0, 3);
+    this.hasBeenClicked = false;
+    this.shape = shape;
+    this.countdown = 0;
+    this.respawnTime = 5;
+  }
+
+  drawPowerUp() {
+    if (!this.hasBeenClicked) {
+      noStroke();
+      fill(this.color);
+      if (this.shape == "circle") {
+        circle(this.x, this.y, this.r);
+      } else {
+        // Extrovert
+        square(this.x, this.y, this.r);
+      }
+    } else if (this.countdown > this.respawnTime) {
+      this.r = random(50, 100);
+      this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+      this.x = random(powerupRadius,width - powerupRadius);
+      this.y = random(powerupRadius,height - powerupRadius);
+      this.hasBeenClicked = false;
+    }
+    this.countdown++;
+  }
+
+  checkHasBeenClicked() {
+    if (this.shape == "circle") {
+      if (mouseIsPressed && !this.hasBeenClicked && (dist(mouseX, mouseY, this.x, this.y) < this.r)) {
+        this.hasBeenClicked = true;
+        spawnNewDescriptor(introvertText, this.colors);
+        this.countdown = 0;
+        this.respawnTime = random(30, 100);
+      }
+    } else {
+      // Square
+      if (mouseIsPressed && !this.hasBeenClicked && (mouseX > this.x && mouseX < (this.x + this.r) && mouseY > this.y && mouseY < (this.y + this.r)) ) {
+        this.hasBeenClicked = true;
+        spawnNewDescriptor(extrovertText, this.colors);
+        this.countdown = 0;
+        this.respawnTime = random(5, 15);
+      }
+    }
+  }
+}
+
 class Ripple {
   constructor(colors, shape, x, y) {
     this.shape = shape;
@@ -304,10 +369,7 @@ class Ripple {
   }
 }
 
-// this class describes the properties of a single particle.
 class Particle {
-  // setting the co-ordinates, radius and the
-  // speed of a particle in both the co-ordinates axes.
   constructor(colors, shape){
     this.x = random(0,width);
     this.y = random(0,height);
@@ -315,11 +377,10 @@ class Particle {
     this.color = colors[Math.floor(Math.random() * colors.length)];
     this.shape = shape;
     this.xSpeed = random(-2,2);
-    this.ySpeed = random(-1,1.5);
+    this.ySpeed = random(-2,2);
     this.cluster = 0;
   }
 
-// creation of a particle.
   createParticle() {
     noStroke();
     fill(this.color);
@@ -353,7 +414,7 @@ class Particle {
   unclusterParticle() {
     if (this.cluster > 0) {
       this.xSpeed = random(-2,2);
-      this.ySpeed = random(-1,1.5);
+      this.ySpeed = random(-2,2);
       this.cluster = 0;
     }
   }
