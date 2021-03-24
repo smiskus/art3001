@@ -15,13 +15,11 @@ var particleMode = 0;
 var numOfParticleModes = 8;
 
 var introvertText = [
-  "Intovert"
+  "Introvert: "
 ]
 
 var extrovertText = [
-  "Extrovert",
-  "1 - Extrovert",
-  "2- extrovert"
+  "Extrovert: "
 ]
 
 var introvertColors = ['blue', 'purple', 'violet', 'aqua', 'dodgerblue'];
