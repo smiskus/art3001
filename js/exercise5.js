@@ -115,7 +115,7 @@ $(document).ready( function() {
       }
     })
 
-    $(".introvert").click(function() {        
+    $(".introvert").click(function() {      
         currentMode = introMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
@@ -137,7 +137,7 @@ $(document).ready( function() {
         powerUp = new PowerUp(introvertColors, "circle");
     })
 
-    $(".extrovert").click(function() {        
+    $(".extrovert").click(function() {    
         currentMode = extroMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
@@ -326,8 +326,8 @@ function spawnNewDescriptor(list, colors) {
   textFill = colors[Math.floor(Math.random() * colors.length)];
   currentTextSize = 1;
   if (textIndex < list.length) {
-    if (list[textIndex].length > 40) {
-      textSizeDesc = random(20, 35);
+    if (list[textIndex].length > 35) {
+      textSizeDesc = random(20, 30);
       textX = random(200, width / 2 - (width / 3));
       textY = random(200, height - 200);
     } else {
