@@ -19,7 +19,11 @@ var maxFallingSpeed = 1;
 var maxFallingRadius = 300;
 var currentText;
 var collidingWithSquare = false;
+let introvertSong;
+let extrovertSong;
+let song;
 
+var minimumFallingSpeed = 5;
 var energy = 100;
 
 var introvertText = [
@@ -128,6 +132,8 @@ $(document).ready( function() {
         textSizeDesc = random(30, 50);
         powerupRadius = random(50, 100);
         currentText = introvertText[0];
+        song = introvertSong;
+        song.play();
         powerUp = new PowerUp(introvertColors, "circle");
     })
 
@@ -147,11 +153,18 @@ $(document).ready( function() {
         textFill = extrovertTextColors[Math.floor(Math.random() * extrovertTextColors.length)];
         textSizeDesc = random(30, 50);
         powerupRadius = random(50, 100);
+        song = extrovertSong;
+        song.play();
         currentText = extrovertText[0];
         maxFallingSpeed = 5;
         powerUp = new PowerUp(extrovertColors, "square");
     })
 })
+
+function preload() {
+  introvertSong = loadSound("../assets/introvertJam.mp3");
+  extrovertSong = loadSound("../assets/extrovertJam.mp3");
+}
 
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight);
@@ -211,6 +224,12 @@ function draw() {
   }
 }
 
+function soundManager() {
+  if (!song.isPlaying()) {
+    song.play();
+  }
+}
+
 function introvert() {
   for(let i = 0;i<ripples.length;i++) {
     ripples[i].ripple();
@@ -237,6 +256,7 @@ function introvert() {
     currentText = "You have run out of energy!";
     updateDescriptors();
   }
+  soundManager();
 }
 
 function extrovert() {
@@ -264,6 +284,7 @@ function extrovert() {
   } else {
     currentText = "You have run out of energy!";
   }
+  soundManager();
 }
 
 function squareCursor() {
@@ -538,12 +559,20 @@ class PowerUp {
         this.countdown = 0;
         this.respawnTime = random(0, 30);
         this.numberTimesClicked++;
-        if (this.numberTimesClicked % 8 == 0 && this.numberTimesClicked != 0) {
-          fallingShapes.push(new FallingSquare());
-          maxFallingSpeed++;
+        if (this.numberTimesClicked % 10 == 0 && this.numberTimesClicked != 0) {
+          if (fallingShapes.length < 12) {
+            fallingShapes.push(new FallingSquare());
+          }
+          if (maxFallingSpeed < 20) {
+            maxFallingSpeed++;
+          }
         }
         if (powerUp.numberTimesClicked % 25 == 0 && powerUp.numberTimesClicked != 0) {
           energy = 100;
+          maxFallingSpeed = minimumFallingSpeed;
+          if (minimumFallingSpeed < 15) {
+            minimumFallingSpeed++;
+          }
           currentText = awesomeText[[Math.floor(Math.random() * awesomeText.length)]];
           textFill = extrovertTextColors[Math.floor(Math.random() * extrovertTextColors.length)];
           currentTextSize = 1;
