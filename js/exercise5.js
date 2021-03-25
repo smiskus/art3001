@@ -15,17 +15,54 @@ var particleMode = 0;
 var numOfParticleModes = 9;
 var powerupRadius;
 var powerUp;
+var maxFallingSpeed = 1;
+var maxFallingRadius = 300;
+var currentText;
+
+var energy = 100;
 
 var introvertText = [
-  "Introvert: "
+  "Click on the pulsing circle to get started",
+  "Hello there!",
+  "Keep clicking on the pulsing circles to increase your score",
+  "You'll see your score at the bottom",
+  "And your energy below that",
+  "When you reach zero energy, the game is over!",
+  "Keep your energy up by avoiding the falling circles",
+  "Being around one too close will drain your energy",
+  "Every twenty-five points, your energy will be restored!",
+  "Good luck!"
 ]
 
 var extrovertText = [
-  "Extrovert: "
+  "Click on the pulsing square to get started",
+  "Hi there!",
+  "Keep clicking on the pulsing square to increase your score",
+  "You'll see your score at the bottom",
+  "And your energy below that",
+  "When you reach zero energy, the game is over!",
+  "Keep your energy up by staying in the falling squares",
+  "Whenever you're outside a square, your energy will fall!",
+  "Have fun!"
 ]
+
+var awesomeText = [
+  "Awesome job!",
+  "Great work!",
+  "Amazing!",
+  "Splendid!",
+  "Wonderfull!",
+  "Superb!",
+  "Most magnificent!"
+]
+
+var introvertTextColors = ['white', 'aqua', 'violet'];
+var extrovertTextColors = ['white', 'yellow', 'orange', 'lightpink'];
 
 var introvertColors = ['blue', 'purple', 'violet', 'aqua', 'dodgerblue'];
 var extrovertColors = ['yellow', 'red', 'orange', 'gold', 'lightpink'];
+
+var fallingShapes = [];
 
 var mouseOffset1 = 0;
 var mouseOffset2 = 0;
@@ -72,15 +109,18 @@ $(document).ready( function() {
         currentMode = introMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
-        $(".type").css("display", "block");
-        $(".type").html("INTROVERT");
+        $(".score").css("display", "block");
+        $(".score").html("score: 0");
+        $(".energy").css("display", "block");
+        $(".energy").html("energy: 100");
         $("#back").css("display", "block");
         $("#home").css("display", "none");
         textX = random(200, width / 2);
         textY = random(200, height - 200);
-        textFill = introvertColors[Math.floor(Math.random() * introvertColors.length)];
+        textFill = introvertTextColors[Math.floor(Math.random() * introvertTextColors.length)];
         textSizeDesc = random(30, 50);
         powerupRadius = random(50, 100);
+        currentText = introvertText[0];
         powerUp = new PowerUp(introvertColors, "circle");
     })
 
@@ -88,15 +128,18 @@ $(document).ready( function() {
         currentMode = extroMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
-        $(".type").css("display", "block");
-        $(".type").html("EXTROVERT");
+        $(".score").css("display", "block");
+        $(".score").html("score: 0");
+        $(".energy").css("display", "block");
+        $(".energy").html("energy: 100");
         $("#back").css("display", "block");
         $("#home").css("display", "none");
         textX = random(200, width / 2);
         textY = random(200, height - 200);
-        textFill = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
+        textFill = extrovertTextColors[Math.floor(Math.random() * extrovertTextColors.length)];
         textSizeDesc = random(30, 50);
         powerupRadius = random(50, 100);
+        currentText = extrovertText[0];
         powerUp = new PowerUp(extrovertColors, "square");
     })
 })
@@ -156,33 +199,57 @@ function draw() {
 }
 
 function introvert() {
-  if (time % 2 == 0 && !(lastMouseX == mouseX && lastMouseY == mouseY)) {
-    ripples.push(new Ripple(introvertColors, "circle", mouseX, mouseY));
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
-  }  
   for(let i = 0;i<ripples.length;i++) {
     ripples[i].ripple();
   }
   trimRipples();
-  powerUp.drawPowerUp();
-  powerUp.checkHasBeenClicked();
-  updateDescriptors(introvertText, introvertColors);
+
+  if (energy > 0) {
+    if (time % 2 == 0 && !(lastMouseX == mouseX && lastMouseY == mouseY)) {
+      ripples.push(new Ripple(introvertColors, "circle", mouseX, mouseY));
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
+    }  
+    powerUp.drawPowerUp();
+    powerUp.checkHasBeenClicked();
+    updateDescriptors();
+  
+    if (powerUp.numberTimesClicked >= 8) {
+      for (let j = 0; j < fallingShapes.length; j++) {
+        fallingShapes[j].fall();
+        fallingShapes[j].checkCollision();
+      }      
+    }
+  } else {
+    currentText = "You have run out of energy!";
+    updateDescriptors();
+  }
 }
 
 function extrovert() {
-  if (time % 2 == 0 && !(lastMouseX == mouseX && lastMouseY == mouseY)) {
-    ripples.push(new Ripple(extrovertColors, "square", mouseX - (maxRippleRadius / 2), mouseY - (maxRippleRadius / 2)));
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
-  }  
   for(let i = 0;i<ripples.length;i++) {
     ripples[i].ripple();
   }
   trimRipples();
-  powerUp.drawPowerUp();
-  powerUp.checkHasBeenClicked();
-  updateDescriptors(extrovertText, extrovertColors);
+  updateDescriptors();
+
+  if (energy > 0) {
+    if (time % 2 == 0 && !(lastMouseX == mouseX && lastMouseY == mouseY)) {
+      ripples.push(new Ripple(extrovertColors, "square", mouseX - (maxRippleRadius / 2), mouseY - (maxRippleRadius / 2)));
+      lastMouseX = mouseX;
+      lastMouseY = mouseY;
+    }  
+    powerUp.drawPowerUp();
+    powerUp.checkHasBeenClicked();
+    if (powerUp.numberTimesClicked >= 8) {
+      for (let j = 0; j < fallingShapes.length; j++) {
+        fallingShapes[j].fall();
+        fallingShapes[j].checkCollision();
+      }      
+    }
+  } else {
+    currentText = "You have run out of energy!";
+  }
 }
 
 function squareCursor() {
@@ -194,7 +261,7 @@ function squareCursor() {
 function sphereCursor() {
   noStroke();
   fill('aqua');
-  ellipse(mouseX, mouseY, maxRippleRadius);
+  ellipse(mouseX, mouseY, (maxRippleRadius / 3) * 2);
 }
 
 function drawStartingSymbol() {
@@ -205,34 +272,38 @@ function drawStartingSymbol() {
     circle(width / 2, height / 2, height / 4);
 }
 
-function updateDescriptors(list) {
+function updateDescriptors() {
   if (currentTextSize < textSizeDesc) {
     currentTextSize++;
     textX-=3;
     textY++;
   }
   fill(textFill);
-  stroke("white");
+  stroke(textFill);
   strokeWeight(1);
   textSize(currentTextSize);
   textFont('Montserrat');
-  text(list[textIndex] + particleMode, textX, textY);
+  text(currentText, textX, textY);  
 }
 
 function spawnNewDescriptor(list, colors) {
-  textIndex = (textIndex + 1) % list.length;
+  textIndex++;
   textFill = colors[Math.floor(Math.random() * colors.length)];
   currentTextSize = 1;
-  if (list[textIndex].length > 40) {
-    textSizeDesc = random(20, 35);
-    textX = random(200, width / 2 - (width / 3));
-    textY = random(200, height - 200);
+  if (textIndex < list.length) {
+    if (list[textIndex].length > 40) {
+      textSizeDesc = random(20, 35);
+      textX = random(200, width / 2 - (width / 3));
+      textY = random(200, height - 200);
+    } else {
+      textSizeDesc = (30, 50);
+      textX = random(200, width / 2);
+      textY = random(200, height - 200);
+    }
+    currentText = list[textIndex];
   } else {
-    textSizeDesc = (30, 50);
-    textX = random(200, width / 2);
-    textY = random(200, height - 200);
+    currentText = "";
   }
-  particleMode = Math.floor(random(0, numOfParticleModes));  
 }
 
 function drawParticles(particles) {
@@ -282,6 +353,69 @@ function trimRipples() {
     }
   }
   ripples = tempArray;
+} 
+
+class FallingCircle {
+  constructor() {
+    this.r = random(50, 200);
+    this.x = random(this.r, width - this.r);
+    this.y = 0;
+    this.color = introvertColors[Math.floor(Math.random() * introvertColors.length)];
+    this.speed = random(1, maxFallingSpeed);
+    this.weight = random(2, 5);
+  }
+
+  fall() {
+    if (this.y > height || this.y < 0) {
+      this.speed*=-1;
+    } 
+    stroke(this.color);
+    strokeWeight(this.weight);
+    noFill();
+    circle(this.x, this.y, this.r);
+    this.y += this.speed;
+  }
+
+  checkCollision() {
+    if (dist(mouseX, mouseY, this.x, this.y) < this.r) {
+      energy--;
+      $(".energy").html("energy: " + energy);
+    }
+  }
+}
+
+class FallingSquare {
+  constructor() {
+    this.r = random(50, maxFallingRadius);
+    this.x = random(this.r, width - this.r);
+    this.y = 0;
+    this.color = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
+    this.speed = random(1, 5);
+    this.weight = random(2, 5);
+  }
+
+  fall() {
+    if (this.y > height || this.y < 0) {
+      this.speed*=-1;
+    } 
+    stroke(this.color);
+    strokeWeight(this.weight);
+    noFill();
+    square(this.x, this.y, this.r);
+    this.y += this.speed;
+  }
+
+  checkCollision() {
+    if ((mouseX > this.x && mouseX < (this.x + this.r) && mouseY > this.y && mouseY < (this.y + this.r))) {
+      if (time % 50 == 0) {
+        energy++;
+        $(".energy").html("energy: " + energy);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
 
 class PowerUp {
@@ -296,6 +430,8 @@ class PowerUp {
     this.shape = shape;
     this.countdown = 0;
     this.respawnTime = 5;
+    this.offset = 1;
+    this.numberTimesClicked = 0;
   }
 
   drawPowerUp() {
@@ -304,16 +440,37 @@ class PowerUp {
       fill(this.color);
       if (this.shape == "circle") {
         circle(this.x, this.y, this.r);
+        stroke("white");
+        noFill();
+        strokeWeight(1);
+        circle(this.x, this.y, this.r + this.offset + 2);
+        stroke("white");
+        noFill();
+        strokeWeight(1);
+        circle(this.x, this.y, this.r + this.offset + 4);
       } else {
         // Extrovert
         square(this.x, this.y, this.r);
+        stroke("white");
+        noFill();
+        strokeWeight(1);
+        square(this.x + (this.offset + 2), this.y + (this.offset + 2), this.r + this.offset + 2);
+        stroke("white");
+        noFill();
+        strokeWeight(1);
+        square(this.x - this.offset, this.y - this.offset, this.r + this.offset + 4);
       }
+      if (this.offset > 30) {
+        this.offset = 1;
+      }
+      this.offset++;
     } else if (this.countdown > this.respawnTime) {
       this.r = random(50, 100);
       this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
       this.x = random(powerupRadius,width - powerupRadius);
       this.y = random(powerupRadius,height - powerupRadius);
       this.hasBeenClicked = false;
+      this.offset = 1;
     }
     this.countdown++;
   }
@@ -322,17 +479,65 @@ class PowerUp {
     if (this.shape == "circle") {
       if (mouseIsPressed && !this.hasBeenClicked && (dist(mouseX, mouseY, this.x, this.y) < this.r)) {
         this.hasBeenClicked = true;
-        spawnNewDescriptor(introvertText, this.colors);
+        if (textIndex < introvertText.length) {
+          spawnNewDescriptor(introvertText, introvertTextColors);
+        }
         this.countdown = 0;
-        this.respawnTime = random(30, 100);
+        this.respawnTime = random(0, 30);
+        this.numberTimesClicked++;
+        if (this.numberTimesClicked % 8 == 0 && this.numberTimesClicked != 0) {
+          fallingShapes.push(new FallingCircle());
+          maxFallingSpeed++;
+        }
+        if (powerUp.numberTimesClicked % 25 == 0 && powerUp.numberTimesClicked != 0) {
+          energy = 100;
+          currentText = awesomeText[[Math.floor(Math.random() * awesomeText.length)]];
+          textFill = introvertTextColors[Math.floor(Math.random() * introvertTextColors.length)];
+          currentTextSize = 1;
+          textSizeDesc = (30, 50);
+          textX = random(200, width / 2);
+          textY = random(200, height - 200);
+        } else if (textIndex >= introvertText.length) {
+          currentText="";
+        }
+        particleMode = Math.floor(random(0, numOfParticleModes));  
+        $(".score").html("score: " + this.numberTimesClicked);
       }
     } else {
       // Square
       if (mouseIsPressed && !this.hasBeenClicked && (mouseX > this.x && mouseX < (this.x + this.r) && mouseY > this.y && mouseY < (this.y + this.r)) ) {
         this.hasBeenClicked = true;
-        spawnNewDescriptor(extrovertText, this.colors);
+        if (textIndex < extrovertText.length) {
+          spawnNewDescriptor(extrovertText, extrovertTextColors);
+        }
         this.countdown = 0;
-        this.respawnTime = random(5, 15);
+        this.respawnTime = random(0, 30);
+        this.numberTimesClicked++;
+        if (this.numberTimesClicked == 8) {
+          for (let k = 0; k < 10; k++) {
+            fallingShapes.push(new FallingSquare());
+          }
+        }
+        if (this.numberTimesClicked % 5 == 0 && this.numberTimesClicked != 0 && this.numberTimesClicked != 5) {
+          fallingShapes.splice(0, 1);
+          if (maxFallingRadius > 50) {
+            maxFallingRadius -= 10;
+          }
+        }
+        if (powerUp.numberTimesClicked % 25 == 0 && powerUp.numberTimesClicked != 0) {
+          energy = 100;
+          fallingShapes.push(new FallingSquare());
+          currentText = awesomeText[[Math.floor(Math.random() * awesomeText.length)]];
+          textFill = extrovertTextColors[Math.floor(Math.random() * extrovertTextColors.length)];
+          currentTextSize = 1;
+          textSizeDesc = (30, 50);
+          textX = random(200, width / 2);
+          textY = random(200, height - 200);
+        } else if (textIndex >= extrovertText.length) {
+          currentText="";
+        }
+        particleMode = Math.floor(random(0, numOfParticleModes));  
+        $(".score").html("score: " + this.numberTimesClicked);
       }
     }
   }
