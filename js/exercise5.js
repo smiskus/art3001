@@ -42,8 +42,9 @@ var extrovertText = [
   "You'll see your score at the bottom",
   "And your energy below that",
   "When you reach zero energy, the game is over!",
-  "Keep your energy up by staying in the falling squares",
-  "Whenever you're outside a square, your energy will fall!",
+  "Keep your energy up by catching falling squares by hovering over them",
+  "Whenever a square falls off the screen, you lose energy",
+  "Every twenty-five points, your energy will be restored!",
   "Have fun!"
 ]
 
@@ -54,7 +55,11 @@ var awesomeText = [
   "Splendid!",
   "Wonderfull!",
   "Superb!",
-  "Most magnificent!"
+  "Most magnificent!",
+  "Excellent!",
+  "You're doing great!",
+  "Keep it up!",
+  "Absolutely wonderful!"
 ]
 
 var introvertTextColors = ['white', 'aqua', 'violet'];
@@ -110,6 +115,7 @@ $(document).ready( function() {
         currentMode = introMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
+        $(".play").css("display", "none");
         $(".score").css("display", "block");
         $(".score").html("score: 0");
         $(".energy").css("display", "block");
@@ -129,6 +135,7 @@ $(document).ready( function() {
         currentMode = extroMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
+        $(".play").css("display", "none");
         $(".score").css("display", "block");
         $(".score").html("score: 0");
         $(".energy").css("display", "block");
@@ -141,6 +148,7 @@ $(document).ready( function() {
         textSizeDesc = random(30, 50);
         powerupRadius = random(50, 100);
         currentText = extrovertText[0];
+        maxFallingSpeed = 5;
         powerUp = new PowerUp(extrovertColors, "square");
     })
 })
@@ -151,7 +159,11 @@ function setup() {
     height = windowHeight;
     canvas.parent('canvas');
     background("#1b142a");   
-    for(let i = 0;i<width/10;i++){
+    var maxNumberOfParticles = width / 10;
+    if (maxNumberOfParticles > 300) {
+      maxNumberOfParticles = 300;
+    }
+    for(let i = 0;i < maxNumberOfParticles;i++){
         introvertedParticles.push(new Particle(introvertColors, "circle"));
         extrovertedParticles.push(new Particle(extrovertColors, "square"));
     }
@@ -243,19 +255,11 @@ function extrovert() {
     powerUp.drawPowerUp();
     powerUp.checkHasBeenClicked();
     if (powerUp.numberTimesClicked >= 8) {
-      collidingWithSquare = false;
       for (let j = 0; j < fallingShapes.length; j++) {
         fallingShapes[j].fall();
-        if (fallingShapes[j].checkCollision()) {
-          collidingWithSquare = true;
-        }
+        fallingShapes[j].checkCollision();
       } 
-      if (!collidingWithSquare) {
-        if (time % 10 == 0) {
-          energy--;
-          $(".energy").html("energy: " + energy);
-        }
-      }     
+      trimFallingSquares();
     }
   } else {
     currentText = "You have run out of energy!";
@@ -365,6 +369,20 @@ function trimRipples() {
   ripples = tempArray;
 } 
 
+function trimFallingSquares() {
+  let temp = [];
+  for (let i = 0; i < fallingShapes.length; i++) {
+    if (fallingShapes[i].y > height) {
+      energy-=5;
+      $(".energy").html("energy: " + energy);
+      temp.push(new FallingSquare());
+    } else {
+      temp.push(fallingShapes[i]);
+    }
+  }
+  fallingShapes = temp;
+}
+
 class FallingCircle {
   constructor() {
     this.r = random(50, 200);
@@ -396,18 +414,15 @@ class FallingCircle {
 
 class FallingSquare {
   constructor() {
-    this.r = random(50, maxFallingRadius);
+    this.r = random(75, 200);
     this.x = random(this.r, width - this.r);
     this.y = 0;
     this.color = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
-    this.speed = random(1, 5);
+    this.speed = random(1, maxFallingSpeed);
     this.weight = random(2, 5);
   }
 
   fall() {
-    if (this.y > height || this.y < 0) {
-      this.speed*=-1;
-    } 
     stroke(this.color);
     strokeWeight(this.weight);
     noFill();
@@ -417,13 +432,12 @@ class FallingSquare {
 
   checkCollision() {
     if ((mouseX > this.x && mouseX < (this.x + this.r) && mouseY > this.y && mouseY < (this.y + this.r))) {
-      if (time % 20 == 0) {
-        energy++;
-        $(".energy").html("energy: " + energy);
-      }
-      return true;
-    } else {
-      return false;
+      this.r = random(75, 200);
+      this.x = random(this.r, width - this.r);
+      this.y = 0;
+      this.color = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
+      this.speed = random(1, maxFallingSpeed);
+      this.weight = random(2, 5);
     }
   }
 }
@@ -495,12 +509,13 @@ class PowerUp {
         this.countdown = 0;
         this.respawnTime = random(0, 30);
         this.numberTimesClicked++;
-        if (this.numberTimesClicked % 9 == 0 && this.numberTimesClicked != 0) {
+        if (this.numberTimesClicked % 8 == 0 && this.numberTimesClicked != 0) {
           fallingShapes.push(new FallingCircle());
           maxFallingSpeed++;
         }
         if (powerUp.numberTimesClicked % 25 == 0 && powerUp.numberTimesClicked != 0) {
           energy = 100;
+          $(".energy").html("energy: " + energy);
           currentText = awesomeText[[Math.floor(Math.random() * awesomeText.length)]];
           textFill = introvertTextColors[Math.floor(Math.random() * introvertTextColors.length)];
           currentTextSize = 1;
@@ -523,21 +538,12 @@ class PowerUp {
         this.countdown = 0;
         this.respawnTime = random(0, 30);
         this.numberTimesClicked++;
-        if (this.numberTimesClicked == 8) {
-          for (let k = 0; k < 5; k++) {
-            fallingShapes.push(new FallingSquare());
-          }
-        }
-        if (this.numberTimesClicked % 5 == 0 && this.numberTimesClicked != 0 && this.numberTimesClicked != 5) {
-          if (fallingShapes.length > 1) {
-            fallingShapes.splice(0, 1);
-          }
-          if (maxFallingRadius > 50) {
-            maxFallingRadius -= 10;
-          }
+        if (this.numberTimesClicked % 8 == 0 && this.numberTimesClicked != 0) {
+          fallingShapes.push(new FallingSquare());
+          maxFallingSpeed++;
         }
         if (powerUp.numberTimesClicked % 25 == 0 && powerUp.numberTimesClicked != 0) {
-          fallingShapes.push(new FallingSquare());
+          energy = 100;
           currentText = awesomeText[[Math.floor(Math.random() * awesomeText.length)]];
           textFill = extrovertTextColors[Math.floor(Math.random() * extrovertTextColors.length)];
           currentTextSize = 1;

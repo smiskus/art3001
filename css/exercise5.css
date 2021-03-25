@@ -78,6 +78,12 @@
     display: none;
 }
 
+.play {
+    color: white; 
+    font-size: 1.5vw;
+    top: 25%;
+}
+
 #back {
     display: none;
 }
