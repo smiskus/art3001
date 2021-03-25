@@ -18,6 +18,7 @@ var powerUp;
 var maxFallingSpeed = 1;
 var maxFallingRadius = 300;
 var currentText;
+var collidingWithSquare = false;
 
 var energy = 100;
 
@@ -242,10 +243,19 @@ function extrovert() {
     powerUp.drawPowerUp();
     powerUp.checkHasBeenClicked();
     if (powerUp.numberTimesClicked >= 8) {
+      collidingWithSquare = false;
       for (let j = 0; j < fallingShapes.length; j++) {
         fallingShapes[j].fall();
-        fallingShapes[j].checkCollision();
-      }      
+        if (fallingShapes[j].checkCollision()) {
+          collidingWithSquare = true;
+        }
+      } 
+      if (!collidingWithSquare) {
+        if (time % 10 == 0) {
+          energy--;
+          $(".energy").html("energy: " + energy);
+        }
+      }     
     }
   } else {
     currentText = "You have run out of energy!";
@@ -407,7 +417,7 @@ class FallingSquare {
 
   checkCollision() {
     if ((mouseX > this.x && mouseX < (this.x + this.r) && mouseY > this.y && mouseY < (this.y + this.r))) {
-      if (time % 50 == 0) {
+      if (time % 20 == 0) {
         energy++;
         $(".energy").html("energy: " + energy);
       }
@@ -485,7 +495,7 @@ class PowerUp {
         this.countdown = 0;
         this.respawnTime = random(0, 30);
         this.numberTimesClicked++;
-        if (this.numberTimesClicked % 8 == 0 && this.numberTimesClicked != 0) {
+        if (this.numberTimesClicked % 9 == 0 && this.numberTimesClicked != 0) {
           fallingShapes.push(new FallingCircle());
           maxFallingSpeed++;
         }
@@ -514,18 +524,19 @@ class PowerUp {
         this.respawnTime = random(0, 30);
         this.numberTimesClicked++;
         if (this.numberTimesClicked == 8) {
-          for (let k = 0; k < 10; k++) {
+          for (let k = 0; k < 5; k++) {
             fallingShapes.push(new FallingSquare());
           }
         }
         if (this.numberTimesClicked % 5 == 0 && this.numberTimesClicked != 0 && this.numberTimesClicked != 5) {
-          fallingShapes.splice(0, 1);
+          if (fallingShapes.length > 1) {
+            fallingShapes.splice(0, 1);
+          }
           if (maxFallingRadius > 50) {
             maxFallingRadius -= 10;
           }
         }
         if (powerUp.numberTimesClicked % 25 == 0 && powerUp.numberTimesClicked != 0) {
-          energy = 100;
           fallingShapes.push(new FallingSquare());
           currentText = awesomeText[[Math.floor(Math.random() * awesomeText.length)]];
           textFill = extrovertTextColors[Math.floor(Math.random() * extrovertTextColors.length)];
