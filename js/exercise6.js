@@ -15,7 +15,7 @@ var engine = Engine.create(),
 
 // create renderer
 var render = Render.create({
-    element: document.body,
+    element: document.getElementById("canvas"),
     engine: engine,
     options: {
         width: 800,
@@ -33,19 +33,43 @@ Runner.run(runner, engine);
 // add bodies
 Composite.add(world, [
 
-    Bodies.circle(100, 100, 90),
-    Bodies.circle(100, 100, 40),
-    Bodies.circle(100, 100, 30),
-    Bodies.circle(100, 100, 20),
-    Bodies.circle(100, 100, 40),
-    Bodies.circle(100, 100, 30),
+    Bodies.circle(100, 100, 70, { render: {
+        fillStyle: 'blue'
+      }}),
+    Bodies.circle(100, 100, 40, { render: {
+        fillStyle: 'purple'
+      }}),
+    Bodies.circle(100, 100, 30, { render: {
+        fillStyle: 'violet'
+      }}),
+    Bodies.circle(100, 100, 20, { render: {
+        fillStyle: 'aqua'
+      }}),
+    Bodies.circle(100, 100, 40, { render: {
+        fillStyle: 'dodgerblue'
+      }}),
+    Bodies.circle(100, 100, 30, { render: {
+        fillStyle: 'aqua'
+      }}),
 
-    Bodies.rectangle(600, 100, 90, 90),
-    Bodies.rectangle(600, 100, 40, 40),
-    Bodies.rectangle(600, 100, 50, 50),
-    Bodies.rectangle(600, 100, 30, 30),
-    Bodies.rectangle(600, 100, 100, 100),
-    Bodies.rectangle(600, 100, 60, 60),
+    Bodies.rectangle(630, 100, 90, 90, { render: {
+        fillStyle: 'red'
+      }}),
+    Bodies.rectangle(610, 100, 40, 40, { render: {
+        fillStyle: 'yellow'
+      }}),
+    Bodies.rectangle(600, 100, 50, 50, { render: {
+        fillStyle: 'orange'
+      }}),
+    Bodies.rectangle(510, 100, 30, 30, { render: {
+        fillStyle: 'red'
+      }}),
+    Bodies.rectangle(590, 100, 100, 100, { render: {
+        fillStyle: 'lightpink'
+      }}),
+    Bodies.rectangle(570, 100, 60, 60, { render: {
+        fillStyle: 'gold'
+      }}),
 
     // walls
     Bodies.rectangle(400, 0, 800, 50, { isStatic: true }),
