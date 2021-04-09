@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fraunces&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
 
 .ex2-cursive-font {
     font-family: 'Parisienne', cursive;
@@ -31,4 +32,27 @@
     background-color: #E21C24;
     padding: 1%;
     border-radius: 10px;
+}
+
+.ex-6 {
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #1b142a;
+    text-align: center;
+}
+
+.ex-6 h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 4vw;
+}
+
+.ex-6 a {
+    color: white;
+    text-decoration: none;
+    font-size: 2vw;
+}
+
+.ex-6 p {
+    font-size: 1.5vw;
 }
