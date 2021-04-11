@@ -1,5 +1,6 @@
 
 $(document).ready( function() { 
+
     // module aliases
     var Engine = Matter.Engine,
     Render = Matter.Render,
@@ -15,12 +16,12 @@ var engine = Engine.create(),
 
 // create renderer
 var render = Render.create({
-    element: document.getElementById("canvas"),
+    element: document.getElementById('canvas'),
     engine: engine,
     options: {
-        width: 800,
-        height: 600,
-        wireframes: false
+      width: 800,
+      height: 600,
+      wireframes: false
     }
 });
 
