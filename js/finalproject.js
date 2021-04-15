@@ -93,11 +93,13 @@ const hoverIntro = 1;
 const hoverExtro = 2;
 const introMode = 3;
 const extroMode = 4;
+const ambivertMode = -1;
 
 $(document).ready( function() {   
     $(".introvert").hover(function() {    
       if (currentMode < 3) {
         currentMode = hoverIntro;
+        $(".introvert").css("cursor", "pointer");
       }        
     }, function() {
       if (currentMode < 3) {
@@ -108,6 +110,17 @@ $(document).ready( function() {
     $(".extrovert").hover(function() {  
       if (currentMode < 3) {      
         currentMode = hoverExtro;
+        $(".extrovert").css("cursor", "pointer");
+      }
+    }, function() {
+      if (currentMode < 3) {
+        currentMode = defaultMode;
+      }
+    })
+
+    $(".ambivert").hover(function() {
+      if (currentMode < 3) {
+        currentMode = ambivertMode;
       }
     }, function() {
       if (currentMode < 3) {
@@ -119,6 +132,8 @@ $(document).ready( function() {
         currentMode = introMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
+        $(".ambivert").css("display", "none");
+        $(".about").css("display", "none");
         $(".play").css("display", "none");
         $(".score").css("display", "block");
         $(".score").html("score: 0");
@@ -126,6 +141,7 @@ $(document).ready( function() {
         $(".energy").html("energy: 100");
         $("#back").css("display", "block");
         $("#home").css("display", "none");
+
         textX = random(200, width / 2);
         textY = random(200, height - 200);
         textFill = introvertTextColors[Math.floor(Math.random() * introvertTextColors.length)];
@@ -141,6 +157,8 @@ $(document).ready( function() {
         currentMode = extroMode;
         $(".introvert").css("display", "none");
         $(".extrovert").css("display", "none");
+        $(".ambivert").css("display", "none");
+        $(".about").css("display", "none");
         $(".play").css("display", "none");
         $(".score").css("display", "block");
         $(".score").html("score: 0");
@@ -164,6 +182,7 @@ $(document).ready( function() {
 function preload() {
   introvertSong = loadSound("../../assets/introvertJam.mp3");
   extrovertSong = loadSound("../../assets/extrovertJam.mp3");
+  console.log("PRELOADED");
 }
 
 function setup() {
@@ -219,6 +238,11 @@ function draw() {
           introvert();   
           sphereCursor();        
           break;
+      case ambivertMode:
+        background("#1b142a");
+        drawParticles(introvertedParticles)       
+        drawParticles(extrovertedParticles)  
+        drawStartingSymbol();       
       default:
           break;
   }
@@ -303,7 +327,7 @@ function squareCursor() {
       stroke(255);
       strokeWeight(3);
       line(0, height / 2, width, height / 2);
-      noFill();
+      fill("#1b142a");
       circle(width / 2, height / 2, height / 4);
   }
   

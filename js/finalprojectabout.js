@@ -17,13 +17,14 @@ function setup() {
       maxNumberOfParticles = 150;
     }
     for(let i = 0;i < maxNumberOfParticles;i++){
-        introvertParticles.push(new Particle(introvertColors, "circle", 0, width / 2, 0, height / 2));
+        introvertParticles.push(new Particle(introvertColors, "circle", 0, width / 2, 0, height));
         extrovertedParticles.push(new Particle(extrovertColors, "square", windowWidth / 2, windowWidth, 0, height));
     }
     maxRippleRadius = width / 20;
 }
 
 function draw() {
+    background("#1b142a"); 
     drawParticles(introvertParticles);
     drawParticles(extrovertedParticles);
 }
