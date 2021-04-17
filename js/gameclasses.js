@@ -224,6 +224,10 @@
       this.xSpeed = random(-2,2);
       this.ySpeed = random(-2,2);
       this.cluster = 0;
+      this.xmin = xmin;
+      this.xmax = xmax;
+      this.ymin = ymin;
+      this.ymax = ymax;
     }
   
     createParticle() {
@@ -238,9 +242,9 @@
   
   // setting the particle in motion.
     moveParticle() {
-      if(this.x < 0 || this.x > width)
+      if(this.x < this.xmin || this.x > this.xmax)
         this.xSpeed*=-1;
-      if(this.y < 0 || this.y > height)
+      if(this.y < this.ymin || this.y > this.ymax)
         this.ySpeed*=-1;
       this.x+=this.xSpeed;
       this.y+=this.ySpeed;
@@ -265,9 +269,9 @@
     }
   
     verticalLineParticles() {
-      if(this.x < 0 || this.x > width)
+      if(this.x < this.xmin || this.x > this.xmax)
       this.xSpeed*=-1;
-      if(this.y < 0 || this.y > height)
+      if(this.y < this.ymin || this.y > this.ymax)
       this.ySpeed*=-1;
       if (Math.floor(this.x) % 10 == 0) {
         this.y+=this.ySpeed;
@@ -278,9 +282,9 @@
     }
   
     horizontalLineParticles() {
-      if(this.x < 0 || this.x > width)
+      if(this.x < this.xmin || this.x > this.xmax)
       this.xSpeed*=-1;
-      if(this.y < 0 || this.y > height)
+      if(this.y < this.ymin || this.y > this.ymax)
       this.ySpeed*=-1;
       if (Math.floor(this.y) % 10 == 0) {
         this.x+=this.xSpeed;
@@ -291,9 +295,9 @@
     }
   
     gridParticles() {
-      if(this.x < 0 || this.x > width)
+      if(this.x < this.xmin || this.x > this.xmax)
       this.xSpeed*=-1;
-      if(this.y < 0 || this.y > height)
+      if(this.y < this.ymin || this.y > this.ymax)
       this.ySpeed*=-1;
       if (Math.floor(this.y) % 10 != 0 || Math.floor(this.x) % 10 != 0) {
         this.x+=this.xSpeed;
@@ -304,11 +308,11 @@
     scatterParticle() {
       this.x+=this.xSpeed;
       this.y+=this.ySpeed;
-      return (this.x < 0 || this.x > width) && (this.y < 0 && this.y > height);
+      return (this.x < this.xmin || this.x > this.xmax) && (this.y < this.ymin || this.y > this.ymax);
     }
   
     unscatterParticles() {
-      if (this.x < 0 || this.x > width) {
+      if (this.x < this.xmin || this.x > this.xmax) {
         this.xSpeed*=-1;
         if (this.x < 0) {
           this.x = 0; 
@@ -316,7 +320,7 @@
           this.x = width;
         }     
       }
-      if(this.y < 0 || this.y > height) {
+      if(this.y < this.ymin || this.y > this.ymax) {
         this.ySpeed*=-1;
         if (this.y < 0) {
           this.y = 0;

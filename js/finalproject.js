@@ -182,7 +182,6 @@ $(document).ready( function() {
 function preload() {
   introvertSong = loadSound("../../assets/introvertJam.mp3");
   extrovertSong = loadSound("../../assets/extrovertJam.mp3");
-  console.log("PRELOADED");
 }
 
 function setup() {
