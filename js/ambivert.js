@@ -2,8 +2,21 @@ let ambivertSong;
 let canvas;
 const introMode = 0;
 const extroMode = 1;
+const slingShotPosX = 400;
+const slingShotPosY = 400;
 var mode = introMode;
 let counter = 0;
+let currentRock;
+let targetRadius = 40;
+let rockRadius = 20;
+let introTargetX = 100;
+let introTargetY = 100;
+let score = 0;
+let energy = 100;
+
+let extroTargetX = 700;
+let extroTargetY = 100;
+var hitTarget = false;
 
 var introvertColors = ['blue', 'purple', 'violet', 'aqua', 'dodgerblue'];
 var extrovertColors = ['yellow', 'red', 'orange', 'gold', 'lightpink'];
@@ -17,12 +30,6 @@ $(document).ready( function() {
   canvas = document.getElementById('canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
-  $("#canvas").hover(function() {
-    if (!ambivertSong.isPlaying()) {
-      ambivertSong.play();
-    }
-  })
 
   matterJsSetUp();
 
@@ -72,15 +79,17 @@ function matterJsSetUp() {
       fillStyle: introvertColors[Math.floor(Math.random() * introvertColors.length)]
     }
   },
-  rock = Bodies.circle(400, 300, 15, rockOptions),
-  anchor = { x: 400, y: 300 },
+  rock = Bodies.circle(slingShotPosX, slingShotPosY, rockRadius, rockOptions),
+  anchor = { x: slingShotPosX, y: slingShotPosY },
   elastic = Constraint.create({ 
       pointA: anchor, 
       bodyB: rock, 
-      stiffness: 0.05
+      stiffness: 0.07
   });
 
-  var pyramid = Composites.stack(0, 0, 20, 2, 0, 0, function(x, y) {
+  currentRock = rock;
+
+  var introstack = Composites.stack(0, 0, 20, 2, 0, 0, function(x, y) {
     var introOptions = {
       render: {
         fillStyle: introvertColors[Math.floor(Math.random() * introvertColors.length)]
@@ -89,9 +98,26 @@ function matterJsSetUp() {
     return Bodies.circle(x, y, 10, introOptions);
   });
 
-  var ground2 = Bodies.rectangle(610, 250, 200, 20, { isStatic: true, render: { fillStyle: '#060a19' } });
+  // Targets
+  var introTargetOptions = {
+    isStatic: true,
+    render: {
+      fillStyle: introvertColors[Math.floor(Math.random() * introvertColors.length)]
+    }
+  }  
+  var introTarget = Bodies.circle(introTargetX, introTargetY, targetRadius, introTargetOptions);
 
-  var pyramid2 = Composites.stack(400, 0, 25, 2, 0, 0, function(x, y) {
+  var extroTargetOptions = {
+    isStatic: true,
+    render: {
+      fillStyle: extrovertColors[Math.floor(Math.random() * extrovertColors.length)]
+    }
+  }
+  var extroTarget = Bodies.rectangle(extroTargetX, extroTargetY, targetRadius * 2, targetRadius * 2, extroTargetOptions);
+
+  var ground2 = Bodies.rectangle(395, 0, 815, 50, { isStatic: true, render: { fillStyle: '#060a19' } });
+
+  var extrostack = Composites.stack(400, 0, 25, 2, 0, 0, function(x, y) {
     var extroOptions = {
       render: {
         fillStyle: extrovertColors[Math.floor(Math.random() * extrovertColors.length)]
@@ -100,41 +126,104 @@ function matterJsSetUp() {
     return Bodies.rectangle(x, y, 15, 15, extroOptions);
   });
 
-  Composite.add(engine.world, [ground, pyramid, pyramid2, rock, elastic]);
+  Composite.add(engine.world, [ground, introstack, ground2, extrostack, rock, elastic, introTarget, extroTarget]);
+
+  Events.on(engine, 'beforeUpdate', function() {
+
+    var rockX = currentRock.position.x;
+    var rockY = currentRock.position.y;
+
+    var dxIntro = Math.abs(rockX - introTargetX);
+    var dyIntro = Math.abs(rockY - introTargetY);
+    var dist = Math.sqrt(dxIntro * dxIntro + dyIntro * dyIntro);
+
+    if (dist < targetRadius + targetRadius && !hitTarget) {
+      hitTarget = true;
+      if (currentRock.label == 'circle') {
+        introTarget.render.fillStyle = introvertColors[Math.floor(Math.random() * introvertColors.length)];
+        score++;
+      } else {
+        if (score >= 2) {
+          energy -= 5;
+        }
+      }
+      if (score >= 2) {
+        $(".top-text").text("Score: " + score)
+        $(".instruction-text").text("energy: " + energy);
+      }
+    }   
+    
+    if ((rockX < extroTargetX + targetRadius + rockRadius + 3 && rockX > extroTargetX - targetRadius - rockRadius - 3 && rockY < extroTargetY + targetRadius + rockRadius + 3 && rockY > extroTargetY - targetRadius - rockRadius - 3) && !hitTarget) {
+      hitTarget = true;
+      if (currentRock.label == 'square') {
+        extroTarget.render.fillStyle = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
+        score++;
+      } else {
+        if (score >= 2) {
+          energy -= 5;
+        }
+      }
+      if (score > 2) {
+        $(".top-text").text("Score: " + score)
+        $(".instruction-text").text("energy: " + energy);
+      }
+    }
+  })
 
   Events.on(engine, 'afterUpdate', function() {
-      if (mouseConstraint.mouse.button === -1 && (rock.position.x > 405 || rock.position.y < 295)) {
+      if (mouseConstraint.mouse.button === -1 && (rock.position.y > slingShotPosY + 20)) {
+        currentRock = rock;
+        hitTarget = false;
+        if (!ambivertSong.isPlaying()) {
+          ambivertSong.play();
+        }
         if (mode == introMode) {
           var size = random(10, 30);
           rockOptions = { 
             density: 0.004,
+            label: 'circle',
             render: {
               fillStyle: introvertColors[Math.floor(Math.random() * introvertColors.length)]
             }
           }
-          rock = Bodies.circle(400, 300, size, rockOptions);
+          rock = Bodies.circle(slingShotPosX, slingShotPosY, size, rockOptions);
         } else {
           var size = random(20, 40);
           rockOptions = { 
             density: 0.004,
+            label: 'square',
             render: {
               fillStyle: extrovertColors[Math.floor(Math.random() * extrovertColors.length)]
             }
           }
-          rock = Bodies.rectangle(400, 300, size, size, rockOptions);
+          rock = Bodies.rectangle(slingShotPosX, slingShotPosY, size, size, rockOptions);
         }
         counter++;
         if (counter % 5 == 0) {
-          engine.world.gravity.y = 1;
-        } else if (counter % 5 == 1) {
-          engine.world.gravity.y = -1;
-        } else if (counter % 5 == 2) {
-          engine.world.gravity.y = 0;
-        } else if (counter % 5 == 3) {
-          engine.world.gravity.y = 1;
+          var randomInt = Math.floor(Math.random() * 3);
+          switch (randomInt) {
+            case 0:
+              engine.world.gravity.y = -1;
+              break;
+            case 1:
+              engine.world.gravity.y = 0;
+              break;
+            default:
+              engine.world.gravity.y = 1;
+              break;
+          }
+        }
+
+        if (counter > 0 && score == 0) {
+          $(".top-text").text("MOST PEOPLE HAVE A MIX OF TRAITS")
+          $(".instruction-text").text("use the slingshot to hit the targets at the top");
+        } else if (counter > 0 && score == 1) {
+          $(".top-text").text("NICE JOB!")
+          $(".instruction-text").text("make sure to hit the target with the right shape!");
+        }
+
+        if (Math.floor(Math.random() * 2) == 1) {
           mode = (mode == introMode) ? extroMode : introMode;
-        } else if (counter % 5 == 4) {
-          engine.world.gravity.y = -1;
         }
 
         Composite.add(engine.world, rock);
