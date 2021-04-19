@@ -195,10 +195,10 @@ nav a {
     text-align: center;
     position: absolute;
     z-index: 2;
-    top: 85%;
+    top: 80%;
     color: white;
     font-size: 2vw;
-    font-weight: 100;
+    font-weight: bold;
     width: 100%;
 }
 
@@ -224,7 +224,17 @@ nav a {
     height: auto;
 }
 
-.instruction-text {
+.score-text {
+    color: white;
+    position: absolute;
+    z-index: 3;
+    top: 30%;
+    text-align: center;
+    width: 100%;
+    font-size: 2vw;
+}
+
+.energy-text {
     color: white;
     position: absolute;
     z-index: 3;

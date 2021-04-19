@@ -16,6 +16,16 @@ const extrovertFacts = [
   "Extroverts are those who get their energy from being around others."
 ]
 
+const ambivertFacts = [
+  "Ambiverts have a balance both traits!",
+  "They can change based on the situation and context.",
+  "So they might really enjoy being in large groups",
+  "But also value having alone time as well",
+  "Not everyone is solely one personality over another",
+  "We all have a mix of traits, which makes us unique",
+  "These definitions just help us understand ourselves better"
+]
+
 let introvertParticles = [];
 var introvertColors = ['blue', 'purple', 'violet', 'aqua', 'dodgerblue'];
 
@@ -25,6 +35,7 @@ var extrovertColors = ['yellow', 'red', 'orange', 'gold', 'lightpink'];
 var particleMode = 0;
 var time = 0;
 var powerupRadius = 60;
+var ambivertIndex = 0;
 
 let introPowerUp;
 let extroPowerUp;
@@ -32,6 +43,17 @@ let extroPowerUp;
 let lastMouseX;
 let lastMouseY;
 let ripples = [];
+
+$(document).ready( function() { 
+  $(".bottom-text").hover(function() {
+    $(".bottom-text").css("cursor", "pointer");
+  })
+
+  $(".bottom-text").click(function() {
+    $(".bottom-text").text(ambivertFacts[ambivertIndex % ambivertFacts.length]);
+    ambivertIndex++;
+  })
+})
 
 function setup() {
     var canvas = createCanvas(windowWidth, windowHeight / 3);

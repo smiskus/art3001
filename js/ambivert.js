@@ -1,3 +1,20 @@
+const ambivertFacts = [
+  "USE THE SLINGSHOT TO HIT THE CIRCLE AND SQUARE TARGETS",
+  "USE THE SLINGSHOT TO HIT THE CIRCLE AND SQUARE TARGETS",
+  "MAKE SURE YOU HIT THE TARGET WITH THE SAME SHAPE",
+  "IF YOU HIT THE WRONG TARGET OR YOU MISS YOU LOSE ENERGY",
+  "GOOD LUCK!"
+]
+
+const awesomeText = [
+  "Nice job!",
+  "Awesome!",
+  "Wonderful!",
+  "Right on target!",
+  "Bullseye!",
+  "Excellent!"
+]
+
 let ambivertSong;
 let canvas;
 const introMode = 0;
@@ -137,41 +154,78 @@ function matterJsSetUp() {
     var dyIntro = Math.abs(rockY - introTargetY);
     var dist = Math.sqrt(dxIntro * dxIntro + dyIntro * dyIntro);
 
-    if (dist < targetRadius + targetRadius && !hitTarget) {
+    if (dist < targetRadius + targetRadius && !hitTarget && energy > 0) {
       hitTarget = true;
       if (currentRock.label == 'circle') {
         introTarget.render.fillStyle = introvertColors[Math.floor(Math.random() * introvertColors.length)];
-        score++;
-      } else {
-        if (score >= 2) {
-          energy -= 5;
+        if (score >= 5 && energy > 0) {
+          introTargetX = random(50, 750);
+          introTargetY = random(50, 300);
+          Matter.Body.setPosition(introTarget, {x: introTargetX, y: introTargetY});
         }
-      }
-      if (score >= 2) {
-        $(".top-text").text("Score: " + score)
-        $(".instruction-text").text("energy: " + energy);
+        score++;
+        if (score % 15 == 0 && energy > 0) {
+          $(".top-text").text(awesomeText[Math.floor(Math.random() * awesomeText.length)]);
+          Composite.add(engine.world, introTarget);
+          energy += 15;
+        } else {
+          $(".top-text").text("");
+        }
+      } else {
+        if (score >= 5) {
+          energy -= 10;
+        }
       }
     }   
     
-    if ((rockX < extroTargetX + targetRadius + rockRadius + 3 && rockX > extroTargetX - targetRadius - rockRadius - 3 && rockY < extroTargetY + targetRadius + rockRadius + 3 && rockY > extroTargetY - targetRadius - rockRadius - 3) && !hitTarget) {
+    if ((rockX < extroTargetX + targetRadius + rockRadius + 3 && rockX > extroTargetX - targetRadius - rockRadius - 3 && rockY < extroTargetY + targetRadius + rockRadius + 3 && rockY > extroTargetY - targetRadius - rockRadius - 3) && !hitTarget && energy > 0) {
       hitTarget = true;
       if (currentRock.label == 'square') {
         extroTarget.render.fillStyle = extrovertColors[Math.floor(Math.random() * extrovertColors.length)];
+        if (score >= 5 && energy > 0) {
+          extroTargetX = random(50, 750);
+          extroTargetY = random(50, 300);
+          Matter.Body.setPosition(extroTarget, {x: extroTargetX, y: extroTargetY});
+        }
         score++;
+        if (score % 15 == 0) {
+          $(".top-text").text(awesomeText[Math.floor(Math.random() * awesomeText.length)]);
+          energy += 15;
+          Composite.add(engine.world, extroTarget);
+        } else {
+          $(".top-text").text("");
+        }
       } else {
-        if (score >= 2) {
-          energy -= 5;
+        if (score >= 5 && energy > 0) {
+          energy -= 10;
+          if (energy < 0) {
+            energy = 0;
+          }
         }
       }
-      if (score > 2) {
-        $(".top-text").text("Score: " + score)
-        $(".instruction-text").text("energy: " + energy);
-      }
+    }
+
+    if (energy > 0) {
+      $(".score-text").text("score: " + score);
+      $(".energy-text").text("energy: " + energy);
+    } else {
+      $(".score-text").text("you ran out of energy!");
+      $(".energy-text").text("energy: " + energy);
+    }
+
+    if (counter > 0 && score < ambivertFacts.length) {
+      $(".top-text").text(ambivertFacts[score]);
     }
   })
 
   Events.on(engine, 'afterUpdate', function() {
       if (mouseConstraint.mouse.button === -1 && (rock.position.y > slingShotPosY + 20)) {
+        if (hitTarget == false && score >= 5 && energy > 0) {
+          energy -= 5;
+          if (energy < 0) {
+            energy = 0;
+          }
+        }
         currentRock = rock;
         hitTarget = false;
         if (!ambivertSong.isPlaying()) {
@@ -199,7 +253,7 @@ function matterJsSetUp() {
           rock = Bodies.rectangle(slingShotPosX, slingShotPosY, size, size, rockOptions);
         }
         counter++;
-        if (counter % 5 == 0) {
+        if (counter % 2 == 0) {
           var randomInt = Math.floor(Math.random() * 3);
           switch (randomInt) {
             case 0:
@@ -212,14 +266,6 @@ function matterJsSetUp() {
               engine.world.gravity.y = 1;
               break;
           }
-        }
-
-        if (counter > 0 && score == 0) {
-          $(".top-text").text("MOST PEOPLE HAVE A MIX OF TRAITS")
-          $(".instruction-text").text("use the slingshot to hit the targets at the top");
-        } else if (counter > 0 && score == 1) {
-          $(".top-text").text("NICE JOB!")
-          $(".instruction-text").text("make sure to hit the target with the right shape!");
         }
 
         if (Math.floor(Math.random() * 2) == 1) {
