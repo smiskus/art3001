@@ -47,9 +47,7 @@ $(document).ready( function() {
   canvas = document.getElementById('canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-
   matterJsSetUp();
-
 })
 
 function matterJsSetUp() {
@@ -174,6 +172,9 @@ function matterJsSetUp() {
       } else {
         if (score >= 5) {
           energy -= 10;
+          if (energy < 0) {
+            energy = 0;
+          }
         }
       }
     }   
@@ -316,5 +317,5 @@ function matterJsSetUp() {
 }
 
 function setup() {
-  
+  background("#1b142a");
 }
